@@ -6,8 +6,11 @@ import {
     PluginSettingTab,
     Setting
 } from 'obsidian';
+import { Extension } from "@codemirror/state";
 
 import { MyView, VIEW_TYPE } from './view'
+
+import { examplePlugin } from './Plugin/examplePlugin'
 
 
 interface MyPluginSettings {
@@ -21,19 +24,25 @@ const DEFAULT_SETTINGS: MyPluginSettings = {
 export default class MyPlugin extends Plugin {
     settings: MyPluginSettings;
 
+    
+
     async onload() {
         await this.loadSettings();
 
-        this.registerView(
-            VIEW_TYPE,
-            (leaf) => new MyView(leaf)
-        )
 
-        this.addRibbonIcon('dice', 'Open my view', (evt) => {
-            this.activateView()
-        })
+        this.registerEditorExtension(examplePlugin)
+
+        // this.registerView(
+        //     VIEW_TYPE,
+        //     (leaf) => new MyView(leaf)
+        // )
+
+        // this.addRibbonIcon('dice', 'Open my view', (evt) => {
+        //     this.activateView()
+        // })
 
     }
+
 
     onunload() {
         this.app.workspace.detachLeavesOfType(VIEW_TYPE)

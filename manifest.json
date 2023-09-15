@@ -1,10 +1,10 @@
 {
-	"id": "obsidian-vue-template",
-	"name": "Vue Template",
+	"id": "obsidian-codemirror-test",
+	"name": "obsidian codemirror test",
 	"version": "0.0.1",
 	"minAppVersion": "0.12.0",
-	"description": "for test",
-	"author": "the_tree",
-	"authorUrl": "",
+	"description": "obsidian-codemirror-test",
+	"author": "gaoxin3220",
+	"authorUrl": "https://gitee.com/gaoxin3220/obsidian-codemirror-test.git",
 	"isDesktopOnly": true
 }
