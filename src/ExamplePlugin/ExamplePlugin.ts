@@ -3,17 +3,20 @@ import {
   PluginValue,
   EditorView,
   ViewPlugin,
-  WidgetType
+  WidgetType,
+  Decoration
 } from "@codemirror/view";
 
 import { Facet } from '@codemirror/state';
 import { Notice } from "obsidian";
 import { ExampleModal } from "src/Dialog/dialog";
 import * as CodeMirror from "codemirror";
+import * as codemirror from "codemirror";
 
 
 
-class ExamplePlugin  {
+
+class ExamplePlugin implements PluginValue {
 
 
   dom: HTMLElement;
@@ -41,7 +44,7 @@ class ExamplePlugin  {
 
 
 
-  setCommnet(view: EditorView) {
+  setCommnet(view: EditorView, update: ViewUpdate) {
 
 
     const _get_gutter = view.dom.querySelector('#right-gutters')
@@ -72,17 +75,80 @@ class ExamplePlugin  {
           const editor = document.querySelector(".editor");
 
 
-          comments.addEventListener('input', (e) => {
+          comments.onblur = (e)=>{
 
-            // console.log( view.contentDOM.querySelector('#'+element.getAttribute('id')));
+            const node = view.contentDOM.querySelector('#' + element.getAttribute('id'))
+
+            const newText = (e.target as HTMLElement).innerHTML
+        
+            const { state } = view;
+
+            const position = view.posAtDOM(node);
+
+            const line = state.doc.lineAt(position);
+
+            const Exp = RegExp( "(" +  element.getAttribute('id')+"'>)([\\s\\S]*?)(<\/span>)","g")
+
+            const test = line.text.replace(Exp,'$1' +newText +'$3' )
 
 
-            view.contentDOM.querySelector('#' + element.getAttribute('id')).innerHTML = (e.target as HTMLElement).innerHTML
+
+            view.dispatch({
+              changes: {
+                    from: line.from,
+                    to: line.to,
+                    insert: test,
+                  },
+            })
+          }
 
 
 
+          // comments.addEventListener('change', (e) => {
 
-          })
+
+          //   const node = view.contentDOM.querySelector('#' + element.getAttribute('id'))
+
+          //   const newText = (e.target as HTMLElement).innerHTML
+        
+          //   const { state } = view;
+
+          //   const position = view.posAtDOM(node);
+
+          //   const line = state.doc.lineAt(position);
+
+          //   const Exp = RegExp( "(" +  element.getAttribute('id')+"'>)([\\s\\S]*?)(<\/span>)","g")
+
+          //   const test = line.text.replace(Exp,'$1' +newText +'$3' )
+
+
+
+          //   view.dispatch({
+          //     changes: {
+          //           from: line.from,
+          //           to: line.to,
+          //           insert: test,
+          //         },
+          //   })
+
+            // const transaction = state.update({
+            //   changes: {
+            //     from: line.from,
+            //     to: line.to,
+            //     insert: test,
+            //   },
+            // });
+
+            // if(transaction.startState){
+            //   view.dispatch(transaction);
+            // }
+            
+
+
+          // })
+
+
+
 
 
           // if (element.parentElement.parentElement.parentElement.offsetHeight < comments.offsetHeight){
@@ -106,7 +172,10 @@ class ExamplePlugin  {
 
     this.dom.style.minHeight = update.view.contentHeight + 'px';
 
-    this.setCommnet(update.view)
+    this.setCommnet(update.view, update)
+
+
+
   }
 
   destroy() {
