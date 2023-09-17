@@ -8,6 +8,7 @@ import {
 } from 'obsidian';
 
 import { MyView, VIEW_TYPE } from './view'
+import { examplePlugin } from './ExamplePlugin/ExamplePlugin';
 
 
 interface MyPluginSettings {
@@ -22,42 +23,44 @@ export default class MyPlugin extends Plugin {
     settings: MyPluginSettings;
 
     async onload() {
-        await this.loadSettings();
+        // await this.loadSettings();
 
-        this.registerView(
-            VIEW_TYPE,
-            (leaf) => new MyView(leaf)
-        )
+        // this.registerView(
+        //     VIEW_TYPE,
+        //     (leaf) => new MyView(leaf)
+        // )
 
-        this.addRibbonIcon('dice', 'Open my view', (evt) => {
-            this.activateView()
-        })
+        // this.addRibbonIcon('dice', 'Open my view', (evt) => {
+        //     this.activateView()
+        // })
+
+        this.registerEditorExtension(examplePlugin);
 
     }
 
     onunload() {
-        this.app.workspace.detachLeavesOfType(VIEW_TYPE)
+        // this.app.workspace.detachLeavesOfType(VIEW_TYPE)
     }
 
     async loadSettings() {
-        this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+        // this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
     }
 
     async saveSettings() {
-        await this.saveData(this.settings);
+        // await this.saveData(this.settings);
     }
-    async activateView() {
-        if (this.app.workspace.getLeavesOfType(VIEW_TYPE).length === 0) {
-            await this.app.workspace.getRightLeaf(false).setViewState({
-                type: VIEW_TYPE,
-                active: true,
-            })
-        }
+    // async activateView() {
+    //     if (this.app.workspace.getLeavesOfType(VIEW_TYPE).length === 0) {
+    //         await this.app.workspace.getRightLeaf(false).setViewState({
+    //             type: VIEW_TYPE,
+    //             active: true,
+    //         })
+    //     }
 
-        this.app.workspace.revealLeaf(
-            this.app.workspace.getLeavesOfType(VIEW_TYPE)[0]
-        )
-    }
+    //     this.app.workspace.revealLeaf(
+    //         this.app.workspace.getLeavesOfType(VIEW_TYPE)[0]
+    //     )
+    // }
 }
 
 
