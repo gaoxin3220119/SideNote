@@ -68,6 +68,7 @@ class ExamplePlugin implements PluginValue {
 
 
           comments.innerHTML = element.innerHTML
+          
           _get_gutter.append(comments)
 
 
@@ -76,8 +77,10 @@ class ExamplePlugin implements PluginValue {
             comments.setAttribute('contenteditable', 'true')
 
             comments.style.cursor = 'text'
+
             comments.style.border = '1px solid #00f'
           }
+
 
        
 
@@ -100,21 +103,27 @@ class ExamplePlugin implements PluginValue {
 
 
             view.dispatch({ changes: { from: line.from, to: line.to, insert: test, } })
-          }
 
           
+            
+          
+          }
 
 
-          if(comments.offsetHeight > element.parentElement.parentElement.parentElement.offsetHeight){
+          if(comments.offsetHeight >= element.parentElement.parentElement.parentElement.offsetHeight){
 
-            element.parentElement.parentElement.parentElement.style.height = comments.offsetHeight + 5 + 'px'
+            // element.parentElement.parentElement.parentElement.style.height = comments.offsetHeight  + 'px'
+
+            // element.parentElement.parentElement.parentElement.style.top = 0 +'px'
+
+            element.parentElement.parentElement.parentElement.setAttribute('style',`Height:${comments.offsetHeight}px;top:0px`)
 
           }else{
 
-            element.parentElement.parentElement.parentElement.style.height ='unset'
-            
-          }
+            element.parentElement.parentElement.parentElement.removeAttribute('style')
 
+          }
+         
          
 
 
