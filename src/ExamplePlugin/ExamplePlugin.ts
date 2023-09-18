@@ -44,7 +44,7 @@ class ExamplePlugin implements PluginValue {
 
 
 
-  setCommnet(view: EditorView, update: ViewUpdate) {
+  setCommnet(view: EditorView) {
 
 
     const _get_gutter = view.dom.querySelector('#right-gutters')
@@ -128,7 +128,7 @@ class ExamplePlugin implements PluginValue {
 
     this.dom.style.minHeight = update.view.contentHeight + 'px';
 
-    this.setCommnet(update.view, update)
+    this.setCommnet(update.view)
 
 
 
