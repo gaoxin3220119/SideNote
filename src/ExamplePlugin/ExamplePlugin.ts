@@ -30,11 +30,12 @@ class ExamplePlugin implements PluginValue {
     this.dom.className = 'cm-gutters';
     this.dom.setAttribute('style', 'background-color:rgb(246, 248, 250);width:150px');
     this.dom.setAttribute("id", "right-gutters")
+    
     this.dom.style.minHeight = view.contentHeight + 'px';
 
 
 
-    view.scrollDOM.insertBefore(this.dom, view.contentDOM.nextSibling);
+    view.scrollDOM.insertAfter(this.dom, view.contentDOM.nextSibling);
 
 
 
@@ -55,7 +56,26 @@ class ExamplePlugin implements PluginValue {
       const findComment = view.contentDOM.querySelectorAll(".comment")
 
 
+      if(findComment.length===0){
 
+         const findStyle = view.contentDOM.querySelectorAll(".cm-line")
+
+         findStyle.forEach($el=>{
+
+          let getStyles =  $el.getAttribute('style')
+
+
+          if(getStyles){
+            if(getStyles.endsWith('top:0px')){
+              $el.removeAttribute('style')
+            };
+          }
+
+         })
+
+      }
+      
+      
       findComment.forEach(element => {
         if (element) {
 
@@ -64,6 +84,7 @@ class ExamplePlugin implements PluginValue {
           comments.style.position = 'absolute'
           comments.style.zIndex = '99'
           comments.style.cursor = 'pointer'
+          comments.style.whiteSpace= 'pre-wrap'  
           comments.addClass('rightComments')
 
 
@@ -74,7 +95,9 @@ class ExamplePlugin implements PluginValue {
 
           comments.onclick = (e) => {
 
-            comments.setAttribute('contenteditable', 'true')
+            comments.setAttribute('contenteditable', 'plaintext-only')
+
+            
 
             comments.style.cursor = 'text'
 
@@ -89,7 +112,7 @@ class ExamplePlugin implements PluginValue {
 
             const node = view.contentDOM.querySelector('#' + element.getAttribute('id'))
 
-            const newText = (e.target as HTMLElement).innerHTML
+            const newText = (e.target as HTMLElement).innerText
 
             const { state } = view;
 
@@ -101,8 +124,11 @@ class ExamplePlugin implements PluginValue {
 
             const test = line.text.replace(Exp, '$1' + newText + '$3')
 
+            
+            
 
-            view.dispatch({ changes: { from: line.from, to: line.to, insert: test, } })
+
+            view.dispatch({ changes: { from: line.from, to: line.to, insert: test.replace(/\n/g, "<br>"), } })
 
           
             
@@ -110,13 +136,17 @@ class ExamplePlugin implements PluginValue {
           }
 
 
-          if(comments.offsetHeight >= element.parentElement.parentElement.parentElement.offsetHeight){
 
-            // element.parentElement.parentElement.parentElement.style.height = comments.offsetHeight  + 'px'
 
-            // element.parentElement.parentElement.parentElement.style.top = 0 +'px'
 
-            element.parentElement.parentElement.parentElement.setAttribute('style',`Height:${comments.offsetHeight}px;top:0px`)
+         
+          
+
+
+          if(comments.offsetHeight+5 >= element.parentElement.parentElement.parentElement.offsetHeight){
+
+            element.parentElement.parentElement.parentElement.setAttribute('style',`height:${comments.offsetHeight + 5}px;top:0px`)
+            
 
           }else{
 
@@ -128,6 +158,8 @@ class ExamplePlugin implements PluginValue {
 
 
         }
+
+
       });
 
 
@@ -141,6 +173,8 @@ class ExamplePlugin implements PluginValue {
     this.dom.style.minHeight = update.view.contentHeight + 'px';
 
     this.setCommnet(update.view)
+
+    
 
   }
 

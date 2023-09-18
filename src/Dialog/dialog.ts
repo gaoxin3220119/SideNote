@@ -1,5 +1,9 @@
 import { App, Modal, Setting, TextAreaComponent } from "obsidian";
 
+
+
+
+
 export class ExampleModal extends Modal {
   result: string;
   onSubmit: (result: string) => void;
@@ -23,7 +27,11 @@ export class ExampleModal extends Modal {
     stylingTemplateContent.inputEl.setAttribute('style', 'width: 100%;  height: 18vh;')
 
     stylingTemplateContent.onChange(async (value) => {
-      this.result = value
+
+
+      this.result = value.replace(/\n/g, "<br>");  //.replace(/.+/g, "<div>$&</div>");
+
+
     });
 
 
