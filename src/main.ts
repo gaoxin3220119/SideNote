@@ -38,7 +38,7 @@ export default class MyPlugin extends Plugin {
                   .onClick(async () => {
                     new ExampleModal(this.app, (result) => {
                       const id = Math.random().toString(36).slice(2)
-                      editor.replaceSelection(`<span class='comment-box'><span class='comment-tool'>📝</span><span class="comment" style="display:none;"  id='comment-id-${id}'> ${result}</span></span>`);
+                      editor.replaceSelection(`<span class='comment-box'><span>📝</span><span class="comment" style="display:none;"  id='comment-id-${id}'>${result}</span></span>`);
                     }).open()
 
                   });
