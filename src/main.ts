@@ -14,7 +14,7 @@ import { ExampleModal } from './Dialog/dialog';
 
 
 
-import { examplePlugin } from './Plugin/examplePlugin'
+
 
 
 

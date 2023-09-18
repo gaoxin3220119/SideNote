@@ -59,104 +59,60 @@ class ExamplePlugin implements PluginValue {
       findComment.forEach(element => {
         if (element) {
 
-          // console.log(element);
+
 
 
           const comments = document.createElement('div')
           comments.style.top = element.parentElement.parentElement.parentElement.offsetTop + 'px'
           comments.style.position = 'absolute'
           comments.style.zIndex = '99'
+          comments.style.cursor = 'pointer'
           comments.addClass('rightComments')
-          comments.setAttribute('contenteditable', 'true')
+
 
           comments.innerHTML = element.innerHTML
           _get_gutter.append(comments)
 
-          const editor = document.querySelector(".editor");
 
 
-          comments.onblur = (e)=>{
+
+
+          comments.onclick = (e) => {
+
+            comments.setAttribute('contenteditable', 'true')
+            comments.style.cursor = 'text'
+            comments.style.border = '1px solid #00f'
+
+
+          }
+
+       
+
+
+          comments.onblur = (e) => {
 
             const node = view.contentDOM.querySelector('#' + element.getAttribute('id'))
 
             const newText = (e.target as HTMLElement).innerHTML
-        
+
             const { state } = view;
 
             const position = view.posAtDOM(node);
 
             const line = state.doc.lineAt(position);
 
-            const Exp = RegExp( "(" +  element.getAttribute('id')+"'>)([\\s\\S]*?)(<\/span>)","g")
+            const Exp = RegExp("(" + element.getAttribute('id') + "'>)([\\s\\S]*?)(<\/span>)", "g")
 
-            const test = line.text.replace(Exp,'$1' +newText +'$3' )
+            const test = line.text.replace(Exp, '$1' + newText + '$3')
 
 
-
-            view.dispatch({
-              changes: {
-                    from: line.from,
-                    to: line.to,
-                    insert: test,
-                  },
-            })
+            view.dispatch({ changes: { from: line.from, to: line.to, insert: test, } })
           }
 
 
 
-          // comments.addEventListener('change', (e) => {
+          element.parentElement.parentElement.parentElement.style.height = comments.offsetHeight + 5 + 'px'
 
-
-          //   const node = view.contentDOM.querySelector('#' + element.getAttribute('id'))
-
-          //   const newText = (e.target as HTMLElement).innerHTML
-        
-          //   const { state } = view;
-
-          //   const position = view.posAtDOM(node);
-
-          //   const line = state.doc.lineAt(position);
-
-          //   const Exp = RegExp( "(" +  element.getAttribute('id')+"'>)([\\s\\S]*?)(<\/span>)","g")
-
-          //   const test = line.text.replace(Exp,'$1' +newText +'$3' )
-
-
-
-          //   view.dispatch({
-          //     changes: {
-          //           from: line.from,
-          //           to: line.to,
-          //           insert: test,
-          //         },
-          //   })
-
-            // const transaction = state.update({
-            //   changes: {
-            //     from: line.from,
-            //     to: line.to,
-            //     insert: test,
-            //   },
-            // });
-
-            // if(transaction.startState){
-            //   view.dispatch(transaction);
-            // }
-            
-
-
-          // })
-
-
-
-
-
-          // if (element.parentElement.parentElement.parentElement.offsetHeight < comments.offsetHeight){
-          //   element.parentElement.parentElement.parentElement.style.height = comments.offsetHeight + 5 + 'px'
-          // }
-          // element.parentElement.parentElement.parentElement.style.height = comments.offsetHeight + 5 + 'px'
-
-          // console.log(temp,comments.offsetHeight);
 
         }
       });
