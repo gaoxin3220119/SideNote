@@ -8,65 +8,51 @@ import {
 } from 'obsidian';
 import { Extension } from "@codemirror/state";
 
-import { MyView, VIEW_TYPE } from './view'
+
+import { examplePlugin } from './ExamplePlugin/ExamplePlugin';
+import { ExampleModal } from './Dialog/dialog';
+
+
 
 import { examplePlugin } from './Plugin/examplePlugin'
 
 
-interface MyPluginSettings {
-    mySetting: string;
-}
 
-const DEFAULT_SETTINGS: MyPluginSettings = {
-    mySetting: 'default'
-}
 
 export default class MyPlugin extends Plugin {
-    settings: MyPluginSettings;
+    
 
     
 
     async onload() {
-        await this.loadSettings();
+      
 
+        this.registerEditorExtension(examplePlugin);
 
-        this.registerEditorExtension(examplePlugin)
+        this.registerEvent(
+            this.app.workspace.on("editor-menu", (menu, editor, view) => {
+              menu.addItem((item) => {
+                item
+                  .setTitle("插入注释 👈")
+                  .setIcon("document")
+                  .onClick(async () => {
+                    new ExampleModal(this.app, (result) => {
+                      const id = Math.random().toString(36).slice(2)
+                      editor.replaceSelection(`<span class='comment-box'><span class='comment-tool'>📝</span><span class="comment" style="display:none;"  id='comment-id-${id}'> ${result}</span></span>`);
+                    }).open()
 
-        // this.registerView(
-        //     VIEW_TYPE,
-        //     (leaf) => new MyView(leaf)
-        // )
-
-        // this.addRibbonIcon('dice', 'Open my view', (evt) => {
-        //     this.activateView()
-        // })
+                  });
+              });
+            })
+          );
 
     }
 
 
     onunload() {
-        this.app.workspace.detachLeavesOfType(VIEW_TYPE)
+        // this.app.workspace.detachLeavesOfType(VIEW_TYPE)
     }
 
-    async loadSettings() {
-        this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
-    }
-
-    async saveSettings() {
-        await this.saveData(this.settings);
-    }
-    async activateView() {
-        if (this.app.workspace.getLeavesOfType(VIEW_TYPE).length === 0) {
-            await this.app.workspace.getRightLeaf(false).setViewState({
-                type: VIEW_TYPE,
-                active: true,
-            })
-        }
-
-        this.app.workspace.revealLeaf(
-            this.app.workspace.getLeavesOfType(VIEW_TYPE)[0]
-        )
-    }
 }
 
 

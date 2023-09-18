@@ -1,10 +1,10 @@
 {
 	"id": "obsidian-codemirror-test",
-	"name": "obsidian codemirror test",
+	"name": "codemirror test",
 	"version": "0.0.1",
 	"minAppVersion": "0.12.0",
-	"description": "obsidian-codemirror-test",
-	"author": "gaoxin3220",
-	"authorUrl": "https://gitee.com/gaoxin3220/obsidian-codemirror-test.git",
+	"description": "for test",
+	"author": "gaoxin",
+	"authorUrl": "",
 	"isDesktopOnly": true
 }
