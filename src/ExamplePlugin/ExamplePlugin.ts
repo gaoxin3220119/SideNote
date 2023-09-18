@@ -59,9 +59,6 @@ class ExamplePlugin implements PluginValue {
       findComment.forEach(element => {
         if (element) {
 
-
-
-
           const comments = document.createElement('div')
           comments.style.top = element.parentElement.parentElement.parentElement.offsetTop + 'px'
           comments.style.position = 'absolute'
@@ -74,16 +71,12 @@ class ExamplePlugin implements PluginValue {
           _get_gutter.append(comments)
 
 
-
-
-
           comments.onclick = (e) => {
 
             comments.setAttribute('contenteditable', 'true')
+
             comments.style.cursor = 'text'
             comments.style.border = '1px solid #00f'
-
-
           }
 
        
@@ -109,9 +102,20 @@ class ExamplePlugin implements PluginValue {
             view.dispatch({ changes: { from: line.from, to: line.to, insert: test, } })
           }
 
+          
 
 
-          element.parentElement.parentElement.parentElement.style.height = comments.offsetHeight + 5 + 'px'
+          if(comments.offsetHeight > element.parentElement.parentElement.parentElement.offsetHeight){
+
+            element.parentElement.parentElement.parentElement.style.height = comments.offsetHeight + 5 + 'px'
+
+          }else{
+
+            element.parentElement.parentElement.parentElement.style.height ='unset'
+            
+          }
+
+         
 
 
         }
@@ -123,20 +127,15 @@ class ExamplePlugin implements PluginValue {
   }
 
   update(update: ViewUpdate) {
-    // ...
-    // console.log(update);
+
 
     this.dom.style.minHeight = update.view.contentHeight + 'px';
 
     this.setCommnet(update.view)
 
-
-
   }
 
   destroy() {
-    // ...
-
     this.dom.remove();
   }
 }
