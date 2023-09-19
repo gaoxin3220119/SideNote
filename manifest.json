@@ -1,6 +1,6 @@
 {
-	"id": "obsidian-codemirror-test",
-	"name": "codemirror test",
+	"id": "obsidian-side-notes",
+	"name": "side notes",
 	"version": "0.0.2",
 	"minAppVersion": "0.20.0",
 	"description": "side notes",
