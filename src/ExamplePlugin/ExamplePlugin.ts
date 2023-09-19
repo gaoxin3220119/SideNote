@@ -31,6 +31,7 @@ class ExamplePlugin implements PluginValue {
 
     view.scrollDOM.insertAfter(this.dom, view.contentDOM.nextSibling);
 
+    
 
 
 

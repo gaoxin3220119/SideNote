@@ -12,6 +12,7 @@ import { Extension } from "@codemirror/state";
 
 import { examplePlugin } from './ExamplePlugin/ExamplePlugin';
 import { ExampleModal } from './Dialog/dialog';
+import EditingViewPlugin from './Plugin/EditorExtension';
 
 
 
@@ -27,30 +28,11 @@ export default class MyPlugin extends Plugin {
 
   async onload() {
 
-    let isWork = true
+   
 
-    this.registerEditorExtension(examplePlugin);
+    this.registerEditorExtension(EditingViewPlugin(this.app));
 
-    const view = this.app.workspace.getActiveViewOfType(MarkdownView)
-
-    const rightGutters=view.contentEl.querySelector('#right-gutters')
-
-    const item = this.addStatusBarItem();
-    item.createEl("span", { text: "📝" });
-    item.style.cursor='pointer'
-    item.onclick=(e)=>{
-      console.log(isWork);
-      if(isWork){
-        isWork = false
-        rightGutters.setAttribute('style','display:block')
-        rightGutters.setAttribute('style', 'background-color:rgb(246, 248, 250)!important;width:250px;margin-right: 30px');
-      }else{
-        isWork = true
-        rightGutters.setAttribute('style','display:none')
-        
-      }
-      
-    }
+  
 
     this.registerEvent(
       this.app.workspace.on("editor-menu", (menu, editor, view) => {
