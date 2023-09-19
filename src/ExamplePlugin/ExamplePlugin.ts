@@ -3,15 +3,9 @@ import {
   PluginValue,
   EditorView,
   ViewPlugin,
-  WidgetType,
-  Decoration
 } from "@codemirror/view";
 
-import { Facet } from '@codemirror/state';
-import { Notice } from "obsidian";
-import { ExampleModal } from "src/Dialog/dialog";
-import * as CodeMirror from "codemirror";
-import * as codemirror from "codemirror";
+
 
 
 
@@ -28,7 +22,7 @@ class ExamplePlugin implements PluginValue {
     this.prevViewport = view.viewport;
     this.dom = document.createElement('div');
     this.dom.className = 'cm-gutters';
-    this.dom.setAttribute('style', 'background-color:rgb(246, 248, 250)!important;width:200px;margin-right: 30px');
+    this.dom.setAttribute('style', 'background-color:rgb(246, 248, 250)!important;width:250px;margin-right: 30px');
     this.dom.setAttribute("id", "right-gutters")
     
     this.dom.style.minHeight = view.contentHeight + 'px';
