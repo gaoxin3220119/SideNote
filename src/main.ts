@@ -13,9 +13,19 @@ import { Extension } from "@codemirror/state";
 import { examplePlugin } from './ExamplePlugin/ExamplePlugin';
 import { ExampleModal } from './Dialog/dialog';
 import EditingViewPlugin from './Plugin/EditorExtension';
+import { ExampleSettingTab } from './Plugin/settings';
 
 
 
+interface ExamplePluginSettings {
+  width: string;
+  backgroundColor: string
+}
+
+const DEFAULT_SETTINGS: Partial<ExamplePluginSettings> = {
+  width: "250",
+  backgroundColor:'rgb(246, 248, 250)'
+};
 
 
 
@@ -23,17 +33,19 @@ import EditingViewPlugin from './Plugin/EditorExtension';
 
 export default class MyPlugin extends Plugin {
 
-
+  settings: ExamplePluginSettings;
 
 
   async onload() {
 
-   
+    await this.loadSettings();
 
-    this.registerEditorExtension(EditingViewPlugin(this.app));
+    this.addSettingTab(new ExampleSettingTab(this.app, this));
+
+    this.registerEditorExtension(EditingViewPlugin(this.app,this));
 
   
-
+  
     this.registerEvent(
       this.app.workspace.on("editor-menu", (menu, editor, view) => {
         menu.addItem((item) => {
@@ -53,6 +65,13 @@ export default class MyPlugin extends Plugin {
 
   }
 
+  async loadSettings() {
+    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+  }
+
+  async saveSettings() {
+    await this.saveData(this.settings);
+  }
 
   onunload() {
     // this.app.workspace.detachLeavesOfType(VIEW_TYPE)

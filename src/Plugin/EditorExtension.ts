@@ -5,19 +5,20 @@ import {
     ViewPlugin,
 } from "@codemirror/view";
 import { App, MarkdownView, WorkspaceLeaf, setIcon } from "obsidian";
+import MyPlugin from "src/main";
 
 
 const label = "View notes";
 
-const addSrcButton = (app: App) => {
-    const apply = () => app.workspace.iterateAllLeaves(addButton(app));
+const addSrcButton = (app: App,plugin: MyPlugin) => {
+    const apply = () => app.workspace.iterateAllLeaves(addButton(app,plugin));
 
     app.workspace.onLayoutReady(apply);
     app.workspace.on("layout-change", apply);
 };
 
 
-const addButton = (app: App) => (leaf: WorkspaceLeaf) => {
+const addButton = (app: App,plugin: MyPlugin) => (leaf: WorkspaceLeaf) => {
     if (
         leaf.view instanceof MarkdownView &&
         leaf.view.containerEl.querySelector(
@@ -36,7 +37,7 @@ const addButton = (app: App) => (leaf: WorkspaceLeaf) => {
             if (isWork) {
                 isWork = false
                 rightGutters.setAttribute('style', 'display:block')
-                rightGutters.setAttribute('style', 'background-color:rgb(246, 248, 250)!important;width:250px;margin-right: 30px');
+                rightGutters.setAttribute('style', `background-color:${plugin.settings.backgroundColor}!important;width:${plugin.settings.width}px;margin-right: 30px`);
                 setIcon(buttonElement, 'pdf-file');
             } else {
                 isWork = true
@@ -53,7 +54,8 @@ const addButton = (app: App) => (leaf: WorkspaceLeaf) => {
     }
 };
 
-export default function EditingViewPlugin(app: App) {
+export default function EditingViewPlugin(app: App,plugin: MyPlugin) {
+    
 
     return ViewPlugin.fromClass(
         class ExamplePlugin implements PluginValue {
@@ -65,26 +67,26 @@ export default function EditingViewPlugin(app: App) {
 
             constructor(view: EditorView) {
 
+
+                
+
                 this.prevViewport = view.viewport;
                 this.dom = document.createElement('div');
                 this.dom.className = 'cm-gutters';
-                this.dom.setAttribute('style', 'background-color:rgb(246, 248, 250)!important;width:250px;margin-right: 30px');
+                this.dom.setAttribute('style', `background-color:${plugin.settings.backgroundColor}!important;width:${plugin.settings.width}px;margin-right: 30px`);
                 this.dom.setAttribute("id", "right-gutters")
 
                 this.dom.style.minHeight = view.contentHeight + 'px';
 
                 view.scrollDOM.insertAfter(this.dom, view.contentDOM.nextSibling);
 
+                addSrcButton(app,plugin)
 
-                //=======================test==========================
+               
+                
 
-
-
-
-                addSrcButton(app)
-
-
-                //=================================================
+                
+                
 
             }
 
