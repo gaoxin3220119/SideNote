@@ -1,6 +1,6 @@
 <template>
     <div v-for="item in findComment">
-        {{ item.innerHTML }}
+        {{ item }}
     </div>
 </template>
 
@@ -18,7 +18,7 @@ let container = compomentSelf.appContext.config.globalProperties.container as HT
 
 let findComment = ref()
 
-console.log(plugin.current_note);
+
 
 
 
@@ -37,15 +37,24 @@ onUnmounted(() => {
 
 function reset() {
     const view = plugin.current_note
+    const Exp = RegExp("(id='comment-id-.*'>)([\\s\\S]*?)(</span>)", "g")
 
 
+    findComment.value = view.getViewData().match(Exp)
 
-    findComment.value = view.containerEl.querySelectorAll('.comment')
 
-  
-   
+    const test = view.getViewData().match(Exp)
 
-    console.log("");
+    
+    
+
+    test.forEach((item)=>{
+        
+        console.log("item:",item);
+    })
+
+
+    
     
 
 }
