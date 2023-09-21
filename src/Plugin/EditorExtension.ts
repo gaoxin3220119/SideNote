@@ -127,6 +127,8 @@ export default function EditingViewPlugin(app: App,plugin: MyPlugin) {
                             } else {
                                 element.parentElement.parentElement.parentElement.removeAttribute('style')
                             }
+
+                            
                         }
                     });
 
@@ -137,6 +139,14 @@ export default function EditingViewPlugin(app: App,plugin: MyPlugin) {
             update(update: ViewUpdate) {
                 this.dom.style.minHeight = update.view.contentHeight + 'px';
                 this.setCommnet(update.view)
+
+                if(update.geometryChanged){
+                    dispatchEvent(new CustomEvent("notes-update"));
+                }
+                
+
+                
+                
             }
 
             destroy() {

@@ -14,6 +14,7 @@ import { examplePlugin } from './ExamplePlugin/ExamplePlugin';
 import { ExampleModal } from './Dialog/dialog';
 import EditingViewPlugin from './Plugin/EditorExtension';
 import { ExampleSettingTab } from './Plugin/settings';
+import { MyView, VIEW_TYPE } from './View/view'
 
 
 
@@ -24,7 +25,7 @@ interface ExamplePluginSettings {
 
 const DEFAULT_SETTINGS: Partial<ExamplePluginSettings> = {
   width: "250",
-  backgroundColor:'rgb(246, 248, 250)'
+  backgroundColor: 'rgb(246, 248, 250)'
 };
 
 
@@ -34,6 +35,7 @@ const DEFAULT_SETTINGS: Partial<ExamplePluginSettings> = {
 export default class MyPlugin extends Plugin {
 
   settings: ExamplePluginSettings;
+  current_note: MarkdownView;
 
 
   async onload() {
@@ -42,10 +44,26 @@ export default class MyPlugin extends Plugin {
 
     this.addSettingTab(new ExampleSettingTab(this.app, this));
 
-    this.registerEditorExtension(EditingViewPlugin(this.app,this));
+    this.registerView(
+      VIEW_TYPE,
+      (leaf) => new MyView(leaf, this)
+    )
 
-  
-  
+    this.addRibbonIcon('dice', 'Open my view', (evt) => {
+      this.activateView()
+    })
+
+    this.registerEditorExtension(EditingViewPlugin(this.app, this));
+
+    this.registerEvent(this.app.workspace.on('active-leaf-change', async (leaf) => {
+      let view = this.app.workspace.getActiveViewOfType(MarkdownView);
+      if (view) {
+        this.current_note = view
+      }
+    }))
+
+
+
     this.registerEvent(
       this.app.workspace.on("editor-menu", (menu, editor, view) => {
         menu.addItem((item) => {
@@ -74,8 +92,23 @@ export default class MyPlugin extends Plugin {
   }
 
   onunload() {
-    // this.app.workspace.detachLeavesOfType(VIEW_TYPE)
+    this.app.workspace.detachLeavesOfType(VIEW_TYPE)
   }
+
+
+  async activateView() {
+    if (this.app.workspace.getLeavesOfType(VIEW_TYPE).length === 0) {
+      await this.app.workspace.getRightLeaf(false).setViewState({
+        type: VIEW_TYPE,
+        active: true,
+      })
+    }
+
+    this.app.workspace.revealLeaf(
+      this.app.workspace.getLeavesOfType(VIEW_TYPE)[0]
+    )
+  }
+
 
 }
 
