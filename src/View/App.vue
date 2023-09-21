@@ -1,6 +1,6 @@
 <template>
     <div v-for="item in findComment">
-        {{ item }}
+        {{ item.replace(/<[^>]+>/g, '') }}
     </div>
 </template>
 
@@ -43,15 +43,15 @@ function reset() {
     findComment.value = view.getViewData().match(Exp)
 
 
-    const test = view.getViewData().match(Exp)
+    // const test = view.getViewData().match(Exp)
 
     
     
 
-    test.forEach((item)=>{
+    // test.forEach((item)=>{
         
-        console.log("item:",item);
-    })
+    //     console.log("item:",item);
+    // })
 
 
     
