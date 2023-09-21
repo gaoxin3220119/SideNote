@@ -1,32 +1,72 @@
 <template>
-    <div v-for="item in findComment">
-        {{ item.replace(/<[^>]+>/g, '') }}
+    <div v-for="item in viewComments">
+        <div class="view-comments" @click="handler" :id="item.id">
+            {{ item.innerHTML }}
+        </div>
     </div>
 </template>
 
 <script setup lang="tsx">
+import { EditorView } from 'codemirror';
 import MyPlugin from 'src/main';
-import { ComputedRef, computed, getCurrentInstance, onMounted, onUnmounted, reactive, ref, watch, watchEffect } from 'vue';
-import { MyView } from './view';
-import { MarkdownView, debounce } from 'obsidian';
+import { getCurrentInstance, onMounted, onUnmounted, reactive } from 'vue';
+
 
 
 let compomentSelf = getCurrentInstance();
 let plugin = compomentSelf.appContext.config.globalProperties.plugin as MyPlugin;
 let container = compomentSelf.appContext.config.globalProperties.container as HTMLElement;
-// let findComment : NodeListOf<Element>
-
-let findComment = ref()
+let viewComments = reactive([])
 
 
+
+
+
+
+function handler(e: Event) {
+
+    
+
+    const id = (e.target as HTMLElement).id
+
+    
+
+    const view = plugin.current_note
+
+    // @ts-expect-error, not typed
+    const editorView = view.editor.cm as EditorView;
+
+    const findNode = editorView.dom.querySelector('#' + id)
+
+    const position = editorView.posAtDOM(findNode);
+
+    // const { state } = editorView;
+
+    // const line = state.doc.lineAt(position);
+
+    const ss = editorView.lineBlockAt(position)
+    
+    //  view.editor.scrollTo(0,)
+
+
+    console.log(ss);
+    
+
+
+}
 
 
 
 
 onMounted(() => {
-    addEventListener("notes-update", reset);
 
-    // plugin.app.workspace.on("active-leaf-change", reset);
+    changed()
+
+
+    addEventListener("notes-update", reset, false);
+
+    plugin.app.workspace.on("active-leaf-change", leafChange);
+
 });
 
 onUnmounted(() => {
@@ -34,31 +74,46 @@ onUnmounted(() => {
 });
 
 
-
-function reset() {
-    const view = plugin.current_note
-    const Exp = RegExp("(id='comment-id-.*'>)([\\s\\S]*?)(</span>)", "g")
-
-
-    findComment.value = view.getViewData().match(Exp)
+function stringToHTML(str: string) {
+    var dom = document.createElement('div');
+    dom.innerHTML = str;
+    return dom;
+};
 
 
-    // const test = view.getViewData().match(Exp)
-
-    
-    
-
-    // test.forEach((item)=>{
-        
-    //     console.log("item:",item);
-    // })
+function leafChange() {
+    changed()
+}
 
 
-    
-    
+function reset(e: Event) {
+
+    changed()
 
 }
 
+function changed() {
+
+    viewComments.length = 0
+    const view = plugin.current_note
+    if (view) {
+        const Exp = RegExp("(<span\\s+class=\"comment\"\\s+style=\"display:none;\"\\s+id='comment-id-.*?>)([\\s\\S]*?)(</span>)", "g")
+
+        const findComment = view.getViewData().match(Exp)
+        if (findComment) {
+            findComment.forEach((item) => {
+                const id = stringToHTML(item).children[0].id
+                const innerHTML = stringToHTML(item).children[0].innerHTML
+                viewComments.push({ id, innerHTML });
+
+            })
+        }
+
+
+
+
+    }
+}
 
 
 
@@ -66,7 +121,8 @@ function reset() {
 
 
 <style scoped>
-h2 {
-    color: lightcoral;
+.view-comments {
+    width: 100%;
+    padding: 5px;
 }
 </style>

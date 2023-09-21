@@ -19,7 +19,7 @@ export class MyView extends ItemView {
         return VIEW_TYPE;
     }
     getDisplayText(): string {
-        return "Vue Stater";
+        return VIEW_TYPE;
     }
     getIcon(): string {
         return "dice";

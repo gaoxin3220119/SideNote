@@ -49,9 +49,19 @@ export default class MyPlugin extends Plugin {
       (leaf) => new MyView(leaf, this)
     )
 
-    this.addRibbonIcon('dice', 'Open my view', (evt) => {
+    // await this.activateView()
+
+    this.addRibbonIcon('dice', 'Open my view', async (evt) => {
+      let view = this.app.workspace.getActiveViewOfType(MarkdownView);
+      if (view) {
+        this.current_note = view
+      }
       this.activateView()
     })
+
+
+
+
 
     this.registerEditorExtension(EditingViewPlugin(this.app, this));
 
@@ -96,19 +106,36 @@ export default class MyPlugin extends Plugin {
   }
 
 
+  // async activateView() {
+  //   if (this.app.workspace.getLeavesOfType(VIEW_TYPE).length === 0) {
+  //     await this.app.workspace.getRightLeaf(false).setViewState({
+  //       type: VIEW_TYPE,
+  //       active: true,
+  //     })
+  //   }
+
+  //   this.app.workspace.revealLeaf(
+  //     this.app.workspace.getLeavesOfType(VIEW_TYPE)[0]
+  //   )
+  // }
+
+
   async activateView() {
-    if (this.app.workspace.getLeavesOfType(VIEW_TYPE).length === 0) {
-      await this.app.workspace.getRightLeaf(false).setViewState({
-        type: VIEW_TYPE,
-        active: true,
-      })
-    }
+    this.app.workspace.detachLeavesOfType(VIEW_TYPE);
+
+    await this.app.workspace.getRightLeaf(false).setViewState({
+      type: VIEW_TYPE,
+      active: true,
+    });
 
     this.app.workspace.revealLeaf(
       this.app.workspace.getLeavesOfType(VIEW_TYPE)[0]
-    )
-  }
+    );
 
+
+
+
+  }
 
 }
 
