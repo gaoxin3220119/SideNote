@@ -90,6 +90,7 @@ function handler(id: string) {
             }
         })
     } else {
+    
         const loneDoc = editorView.state.doc
         let tNumber = 0
         for (let i = 1; i <= loneDoc.lines; i++) {
@@ -179,7 +180,7 @@ function changed() {
 
 .header-tool {
     height: 20px;
-    background: #e3e3e3;
+    background: #e2e2e2;
     border-top: 1px solid #cdcdcd;
     border-right: 1px solid #cdcdcd;
     border-left: 1px solid #cdcdcd;
