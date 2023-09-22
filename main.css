@@ -1,6 +1,14 @@
 /* sfc-style:E:\test\.obsidian\plugins\obsidian-codemirror-test\src\View\App.vue?type=style&index=0 */
-.view-comments[data-v-11ff5612] {
+.view-comments-gx[data-v-11ff5612] {
   width: 100%;
-  padding: 5px;
+  padding: 10px;
+  background: #eee;
+  margin-bottom: 5px;
+  cursor: pointer;
+  border: 1px solid #cdcdcd;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  font-size: 12px;
 }
-/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsic2ZjLXN0eWxlOkU6XFx0ZXN0XFwub2JzaWRpYW5cXHBsdWdpbnNcXG9ic2lkaWFuLWNvZGVtaXJyb3ItdGVzdFxcc3JjXFxWaWV3XFxBcHAudnVlP3R5cGU9c3R5bGUmaW5kZXg9MCJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiXG4udmlldy1jb21tZW50c1tkYXRhLXYtMTFmZjU2MTJdIHtcclxuICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgcGFkZGluZzogNXB4O1xufVxyXG4iXSwKICAibWFwcGluZ3MiOiAiO0FBQ0E7QUFDSTtBQUNBO0FBQUE7IiwKICAibmFtZXMiOiBbXQp9Cg== */
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsic2ZjLXN0eWxlOkU6XFx0ZXN0XFwub2JzaWRpYW5cXHBsdWdpbnNcXG9ic2lkaWFuLWNvZGVtaXJyb3ItdGVzdFxcc3JjXFxWaWV3XFxBcHAudnVlP3R5cGU9c3R5bGUmaW5kZXg9MCJdLAogICJzb3VyY2VzQ29udGVudCI6IFsiXG4udmlldy1jb21tZW50cy1neFtkYXRhLXYtMTFmZjU2MTJdIHtcclxuICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgcGFkZGluZzogMTBweDtcclxuICAgIGJhY2tncm91bmQ6ICNlZWU7XHJcbiAgICBtYXJnaW4tYm90dG9tOiA1cHg7XHJcbiAgICBjdXJzb3I6IHBvaW50ZXI7XHJcbiAgICBib3JkZXI6IDFweCBzb2xpZCAjY2RjZGNkO1xyXG4gICAgd2hpdGUtc3BhY2U6IHByZS13cmFwO1xyXG4gICAgd29yZC13cmFwOiBicmVhay13b3JkO1xyXG4gICAgb3ZlcmZsb3ctd3JhcDogYnJlYWstd29yZDtcclxuICAgIGZvbnQtc2l6ZTogMTJweDtcbn1cclxuIl0sCiAgIm1hcHBpbmdzIjogIjtBQUNBO0FBQ0k7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFBQTsiLAogICJuYW1lcyI6IFtdCn0K */

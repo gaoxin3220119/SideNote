@@ -7,13 +7,22 @@
   position: absolute;
   z-index: 99;
   cursor: pointer;
-  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 /* main.css */
-.view-comments[data-v-11ff5612] {
+.view-comments-gx[data-v-11ff5612] {
   width: 100%;
-  padding: 5px;
+  padding: 10px;
+  background: #eee;
+  margin-bottom: 5px;
+  cursor: pointer;
+  border: 1px solid #cdcdcd;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  font-size: 12px;
 }
 
 /* src/main.css */

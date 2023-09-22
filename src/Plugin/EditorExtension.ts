@@ -142,6 +142,7 @@ export default function EditingViewPlugin(app: App,plugin: MyPlugin) {
 
                 if(update.docChanged){
                     dispatchEvent(new CustomEvent("notes-update"));
+                    
                 }
                 
 

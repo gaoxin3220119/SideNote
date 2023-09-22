@@ -1,16 +1,14 @@
 <template>
     <div v-for="item in viewComments">
-        <div class="view-comments" @click="handler" :id="item.id">
-            {{ item.innerHTML }}
+        <div class="view-comments-gx" @click="handler(item.id)">
+            <span v-html='item.innerHTML'></span>
         </div>
     </div>
 </template>
 
 <script setup lang="tsx">
 import { EditorView } from 'codemirror';
-import { Editor } from 'obsidian';
 import MyPlugin from 'src/main';
-import * as internal from 'stream';
 import { getCurrentInstance, onMounted, onUnmounted, reactive } from 'vue';
 
 
@@ -22,108 +20,34 @@ let viewComments = reactive([])
 
 
 
-
-
-
-
-function handler(e: Event) {
-
-
-
-    const id = (e.target as HTMLElement).id
-
-
+function handler(id: string) {
 
     const view = plugin.current_note
 
     // @ts-expect-error, not typed
     const editorView = view.editor.cm as EditorView;
-
-
     const doc = editorView.state.doc.children
-
     doc.forEach((value, index) => {
-
-        // console.log(value);
-        
-
         let tNumber = 0
         for (let i = 1; i <= value.lines; i++) {
-
-   
             if (value.line(i).text.indexOf(id) != -1) {
-
-                // const n = value.line(i).number 
-
-   
-
                 tNumber = index * 32 + value.line(i).number 
-
-                //  if(index == 0){
-                //     tNumber = index * 32 + n
-                //  }else if(index==1){
-                //     tNumber = index * 32 + n
-                //  }else if(index == 2){
-                //     tNumber = index * 32 + n
-                //  }else if(index == 3){
-                //     tNumber = index * 32 - n
-                //  }
-
-      
                 view.editor.focus()
-
-                view.editor.setCursor(tNumber-2,2)
+                view.editor.setCursor(tNumber-2,2)       
+                console.log(tNumber);
                 
-
-                // console.log(value.line(i) , tNumber, n ,index , i)
-
-                return
+                return 0
             }
-
-
         }
-
-
     })
-
-
-
-
-
-
-
-
-
-
-    // const position = editorView.posAtDOM(findNode);
-
-    // const { state } = editorView;
-
-
-
-    // // const line = state.doc.lineAt(position);
-
-    // const ss = editorView.lineBlockAt(position)
-
-    //  view.editor.scrollTo(0,)
-
-
-    // console.log(ss);
-
-
-
 }
 
 
 
 
 onMounted(() => {
-
     changed()
-
-
     addEventListener("notes-update", reset, false);
-
     plugin.app.workspace.on("active-leaf-change", leafChange);
 
 });
@@ -146,18 +70,14 @@ function leafChange() {
 
 
 function reset(e: Event) {
-
     changed()
-
 }
 
 function changed() {
-
     viewComments.length = 0
     const view = plugin.current_note
     if (view) {
         const Exp = RegExp("(<span\\s+class=\"comment\"\\s+style=\"display:none;\"\\s+id='comment-id-.*?>)([\\s\\S]*?)(</span>)", "g")
-
         const findComment = view.getViewData().match(Exp)
         if (findComment) {
             findComment.forEach((item) => {
@@ -167,10 +87,6 @@ function changed() {
 
             })
         }
-
-
-
-
     }
 }
 
@@ -180,8 +96,16 @@ function changed() {
 
 
 <style scoped>
-.view-comments {
+.view-comments-gx {
     width: 100%;
-    padding: 5px;
+    padding: 10px;
+    background: #eee;
+    margin-bottom: 5px;
+    cursor: pointer;
+    border: 1px solid #cdcdcd;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    font-size: 12px;
 }
 </style>
