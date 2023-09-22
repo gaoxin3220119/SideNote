@@ -85,12 +85,21 @@ function handler(id: string) {
                     tNumber = index * 32 + value.line(i).number
                     view.editor.focus()
                     view.editor.setCursor(tNumber - 2, 1)
+
+                    const cursor = view.editor.getCursor("anchor")
+                    const pos = view.editor.posToOffset(cursor);
+                    // @ts-expect-error, not typed
+                    const word = view.editor.cm.state.wordAt(pos);
+                    const wordStart = view.editor.offsetToPos(word.from);
+                    const wordEnd = view.editor.offsetToPos(word.to);
+                    view.editor.scrollIntoView({ from: wordStart, to: wordEnd }, true)
+
                     return 0
                 }
             }
         })
     } else {
-    
+
         const loneDoc = editorView.state.doc
         let tNumber = 0
         for (let i = 1; i <= loneDoc.lines; i++) {
@@ -191,5 +200,6 @@ function changed() {
     position: absolute;
     right: 2px;
     cursor: pointer;
-    
-}</style>
+
+}
+</style>
