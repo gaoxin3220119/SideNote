@@ -27,21 +27,40 @@ function handler(id: string) {
     // @ts-expect-error, not typed
     const editorView = view.editor.cm as EditorView;
     const doc = editorView.state.doc.children
-    doc.forEach((value, index) => {
-        let tNumber = 0
-        for (let i = 1; i <= value.lines; i++) {
-            if (value.line(i).text.indexOf(id) != -1) {
-                tNumber = index * 32 + value.line(i).number 
-                view.editor.focus()
-                view.editor.setCursor(tNumber-2,1)       
-                // console.log(tNumber);
 
-                
-                
-                return 0
+    
+    
+
+    if (doc) {
+        doc.forEach((value, index) => {
+            let tNumber = 0
+            for (let i = 1; i <= value.lines; i++) {
+                if (value.line(i).text.indexOf(id) != -1) {
+                    tNumber = index * 32 + value.line(i).number
+                    view.editor.focus()
+                    view.editor.setCursor(tNumber - 2, 1)
+                    return 0
+                }
             }
-        }
-    })
+        })
+    }else{
+        console.log( );
+
+        const loneDoc =  editorView.state.doc
+
+        let tNumber = 0
+            for (let i = 1; i <= loneDoc.lines; i++) {
+                if (loneDoc.line(i).text.indexOf(id) != -1) {
+                    tNumber = loneDoc.line(i).number
+                    view.editor.focus()
+                    view.editor.setCursor(tNumber-1,1)
+                    return 0
+                }
+            }
+
+    }
+
+
 }
 
 
@@ -52,7 +71,7 @@ onMounted(() => {
     addEventListener("notes-update", reset, false);
     plugin.app.workspace.on("active-leaf-change", leafChange);
 
-   
+
 
 });
 

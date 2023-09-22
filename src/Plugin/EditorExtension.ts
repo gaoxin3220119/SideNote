@@ -132,9 +132,9 @@ export default function EditingViewPlugin(app: App,plugin: MyPlugin) {
             update(update: ViewUpdate) {
                 this.dom.style.minHeight = update.view.contentHeight + 'px';
 
-                if(update.geometryChanged){
+                // if(update.geometryChanged){
                     this.setCommnet(update.view)
-                }
+                // }
 
                 if(update.docChanged){
                     dispatchEvent(new CustomEvent("notes-update"));
