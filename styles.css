@@ -18,11 +18,26 @@
   background: #eee;
   margin-bottom: 5px;
   cursor: pointer;
-  border: 1px solid #cdcdcd;
+  border-bottom: 1px solid #cdcdcd;
+  border-right: 1px solid #cdcdcd;
+  border-left: 1px solid #cdcdcd;
   white-space: pre-wrap;
   word-wrap: break-word;
   overflow-wrap: break-word;
   font-size: 12px;
+}
+.header-tool[data-v-11ff5612] {
+  height: 20px;
+  background: #e3e3e3;
+  border-top: 1px solid #cdcdcd;
+  border-right: 1px solid #cdcdcd;
+  border-left: 1px solid #cdcdcd;
+  position: relative;
+}
+.copy-icons[data-v-11ff5612] {
+  position: absolute;
+  right: 2px;
+  cursor: pointer;
 }
 
 /* src/main.css */

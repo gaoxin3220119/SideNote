@@ -1,13 +1,28 @@
 <template>
-    <div v-for="item in viewComments">
-        <div class="view-comments-gx" @click="handler(item.id)">
-            <span v-html='item.innerHTML'></span>
+    <div v-for="(item,index)  in viewComments">
+        <div class="header-tool">
+            <div class="copy-icons" @click="copyHandler(index)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-clipboard-list">
+                    <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                    <path d="M12 11h4" />
+                    <path d="M12 16h4" />
+                    <path d="M8 11h.01" />
+                    <path d="M8 16h.01" />
+                </svg>
+            </div>
+        </div>
+        <div class="view-comments-gx" @click="handler(item.id)" >
+            <span v-html='item.innerHTML' :ref="'menuItem'+index"></span>
         </div>
     </div>
 </template>
 
 <script setup lang="tsx">
 import { EditorView } from 'codemirror';
+import { Notice } from 'obsidian';
 import MyPlugin from 'src/main';
 import { getCurrentInstance, onMounted, onUnmounted, reactive } from 'vue';
 
@@ -19,6 +34,41 @@ let container = compomentSelf.appContext.config.globalProperties.container as HT
 let viewComments = reactive([])
 
 
+function textCopy(t) {
+    // 如果当前浏览器版本不兼容navigator.clipboard
+    if (!navigator.clipboard) {
+        var ele = document.createElement("input");
+        ele.value = t;
+        document.body.appendChild(ele);
+        ele.select();
+        document.execCommand("copy");
+        document.body.removeChild(ele);
+        if (document.execCommand("copy")) {
+            new Notice('复制成功！')
+        } else {
+            new Notice('复制失败！')
+        }
+    } else {
+        navigator.clipboard.writeText(t).then(function () {
+            new Notice('复制成功！')
+        }).catch(function () {
+            new Notice('复制失败！')
+        })
+    }
+}
+
+const { proxy } = getCurrentInstance();
+
+function copyHandler(index:number) {
+
+    const text = proxy.$refs[`menuItem${index}`] as HTMLSpanElement
+
+    // @ts-expect-error, not typed
+    textCopy(text[0].innerHTML)
+    
+
+   
+}
 
 function handler(id: string) {
 
@@ -28,8 +78,8 @@ function handler(id: string) {
     const editorView = view.editor.cm as EditorView;
     const doc = editorView.state.doc.children
 
-    
-    
+
+
 
     if (doc) {
         doc.forEach((value, index) => {
@@ -43,20 +93,20 @@ function handler(id: string) {
                 }
             }
         })
-    }else{
-        console.log( );
+    } else {
+        console.log();
 
-        const loneDoc =  editorView.state.doc
+        const loneDoc = editorView.state.doc
 
         let tNumber = 0
-            for (let i = 1; i <= loneDoc.lines; i++) {
-                if (loneDoc.line(i).text.indexOf(id) != -1) {
-                    tNumber = loneDoc.line(i).number
-                    view.editor.focus()
-                    view.editor.setCursor(tNumber-1,1)
-                    return 0
-                }
+        for (let i = 1; i <= loneDoc.lines; i++) {
+            if (loneDoc.line(i).text.indexOf(id) != -1) {
+                tNumber = loneDoc.line(i).number
+                view.editor.focus()
+                view.editor.setCursor(tNumber - 1, 1)
+                return 0
             }
+        }
 
     }
 
@@ -125,10 +175,27 @@ function changed() {
     background: #eee;
     margin-bottom: 5px;
     cursor: pointer;
-    border: 1px solid #cdcdcd;
+    border-bottom: 1px solid #cdcdcd;
+    border-right: 1px solid #cdcdcd;
+    border-left: 1px solid #cdcdcd;
     white-space: pre-wrap;
     word-wrap: break-word;
     overflow-wrap: break-word;
     font-size: 12px;
+}
+
+.header-tool {
+    height: 20px;
+    background: #e3e3e3;
+    border-top: 1px solid #cdcdcd;
+    border-right: 1px solid #cdcdcd;
+    border-left: 1px solid #cdcdcd;
+    position: relative;
+}
+
+.copy-icons {
+    position: absolute;
+    right: 2px;
+    cursor: pointer;
 }
 </style>
