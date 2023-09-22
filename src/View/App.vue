@@ -86,13 +86,18 @@ function handler(id: string) {
                     view.editor.focus()
                     view.editor.setCursor(tNumber - 2, 1)
 
-                    const cursor = view.editor.getCursor("anchor")
+                    const cursor = view.editor.getCursor()
                     const pos = view.editor.posToOffset(cursor);
                     // @ts-expect-error, not typed
                     const word = view.editor.cm.state.wordAt(pos);
-                    const wordStart = view.editor.offsetToPos(word.from);
-                    const wordEnd = view.editor.offsetToPos(word.to);
-                    view.editor.scrollIntoView({ from: wordStart, to: wordEnd }, true)
+
+                    if (word) {
+                        const wordStart = view.editor.offsetToPos(word.from);
+                        const wordEnd = view.editor.offsetToPos(word.to);
+                        view.editor.scrollIntoView({ from: wordStart, to: wordEnd }, true)
+                    }
+
+
 
                     return 0
                 }
