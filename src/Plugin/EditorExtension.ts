@@ -70,7 +70,7 @@ export default function EditingViewPlugin(app: App,plugin: MyPlugin) {
             }
 
 
-            setCommnet(view: EditorView) {
+            setCommnet(view: EditorView,update:ViewUpdate) {
                 const _get_gutter = view.dom.querySelector('#right-gutters')
                 if (_get_gutter) {
                     _get_gutter.empty()
@@ -115,11 +115,18 @@ export default function EditingViewPlugin(app: App,plugin: MyPlugin) {
                                 view.dispatch({ changes: { from: line.from, to: line.to, insert: test.replace(/\n/g, "<br>"), } })
                             }
 
-                            if (comments.offsetHeight + 5 >= element.parentElement.parentElement.parentElement.offsetHeight) {
-                                element.parentElement.parentElement.parentElement.setAttribute('style', `height:${comments.offsetHeight + 5}px;top:0px`)
-                            } else {
-                                element.parentElement.parentElement.parentElement.removeAttribute('style')
-                            }
+                            // if(update.docChanged){
+
+                         
+                                if (comments.offsetHeight + 5 >= element.parentElement.parentElement.parentElement.offsetHeight) {
+                                    element.parentElement.parentElement.parentElement.setAttribute('style', `min-height:${comments.offsetHeight + 5}px;top:0px`)
+                                } else {
+                                    element.parentElement.parentElement.parentElement.removeAttribute('style')
+                                }
+
+                         
+                               
+                            // }
 
                             
                         }
@@ -129,12 +136,17 @@ export default function EditingViewPlugin(app: App,plugin: MyPlugin) {
 
             }
 
+            
+
             update(update: ViewUpdate) {
                 this.dom.style.minHeight = update.view.contentHeight + 'px';
 
                 // if(update.geometryChanged){
-                    this.setCommnet(update.view)
+                    this.setCommnet(update.view,update)
                 // }
+
+           
+                
 
                 if(update.docChanged){
                     dispatchEvent(new CustomEvent("notes-update"));

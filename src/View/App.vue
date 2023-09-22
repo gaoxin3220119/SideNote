@@ -90,10 +90,7 @@ function handler(id: string) {
             }
         })
     } else {
-        console.log();
-
         const loneDoc = editorView.state.doc
-
         let tNumber = 0
         for (let i = 1; i <= loneDoc.lines; i++) {
             if (loneDoc.line(i).text.indexOf(id) != -1) {
