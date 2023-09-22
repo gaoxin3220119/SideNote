@@ -8,7 +8,9 @@
 
 <script setup lang="tsx">
 import { EditorView } from 'codemirror';
+import { Editor } from 'obsidian';
 import MyPlugin from 'src/main';
+import * as internal from 'stream';
 import { getCurrentInstance, onMounted, onUnmounted, reactive } from 'vue';
 
 
@@ -23,34 +25,91 @@ let viewComments = reactive([])
 
 
 
+
 function handler(e: Event) {
 
-    
+
 
     const id = (e.target as HTMLElement).id
 
-    
+
 
     const view = plugin.current_note
 
     // @ts-expect-error, not typed
     const editorView = view.editor.cm as EditorView;
 
-    const findNode = editorView.dom.querySelector('#' + id)
 
-    const position = editorView.posAtDOM(findNode);
+    const doc = editorView.state.doc.children
+
+    doc.forEach((value, index) => {
+
+        // console.log(value);
+        
+
+        let tNumber = 0
+        for (let i = 1; i <= value.lines; i++) {
+
+   
+            if (value.line(i).text.indexOf(id) != -1) {
+
+                // const n = value.line(i).number 
+
+   
+
+                tNumber = index * 32 + value.line(i).number 
+
+                //  if(index == 0){
+                //     tNumber = index * 32 + n
+                //  }else if(index==1){
+                //     tNumber = index * 32 + n
+                //  }else if(index == 2){
+                //     tNumber = index * 32 + n
+                //  }else if(index == 3){
+                //     tNumber = index * 32 - n
+                //  }
+
+      
+                view.editor.focus()
+
+                view.editor.setCursor(tNumber-2,2)
+                
+
+                // console.log(value.line(i) , tNumber, n ,index , i)
+
+                return
+            }
+
+
+        }
+
+
+    })
+
+
+
+
+
+
+
+
+
+
+    // const position = editorView.posAtDOM(findNode);
 
     // const { state } = editorView;
 
-    // const line = state.doc.lineAt(position);
 
-    const ss = editorView.lineBlockAt(position)
-    
+
+    // // const line = state.doc.lineAt(position);
+
+    // const ss = editorView.lineBlockAt(position)
+
     //  view.editor.scrollTo(0,)
 
 
-    console.log(ss);
-    
+    // console.log(ss);
+
 
 
 }
