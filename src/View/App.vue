@@ -33,8 +33,10 @@ function handler(id: string) {
             if (value.line(i).text.indexOf(id) != -1) {
                 tNumber = index * 32 + value.line(i).number 
                 view.editor.focus()
-                view.editor.setCursor(tNumber-2,2)       
-                console.log(tNumber);
+                view.editor.setCursor(tNumber-2,1)       
+                // console.log(tNumber);
+
+                
                 
                 return 0
             }
@@ -49,6 +51,8 @@ onMounted(() => {
     changed()
     addEventListener("notes-update", reset, false);
     plugin.app.workspace.on("active-leaf-change", leafChange);
+
+   
 
 });
 

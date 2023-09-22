@@ -29,9 +29,6 @@ const addButton = (app: App,plugin: MyPlugin) => (leaf: WorkspaceLeaf) => {
         let isWork = false
         const buttonElement = view.addAction("pdf-file", label, (evt) => {
 
-
-           
-
             const rightGutters = view.contentEl.querySelector('#right-gutters')
 
             if (isWork) {
@@ -45,10 +42,6 @@ const addButton = (app: App,plugin: MyPlugin) => (leaf: WorkspaceLeaf) => {
                 setIcon(buttonElement, 'add-note-glyph');
 
             }
-
-            
-             
-
 
         });
     }
@@ -138,7 +131,10 @@ export default function EditingViewPlugin(app: App,plugin: MyPlugin) {
 
             update(update: ViewUpdate) {
                 this.dom.style.minHeight = update.view.contentHeight + 'px';
-                this.setCommnet(update.view)
+
+                if(update.geometryChanged){
+                    this.setCommnet(update.view)
+                }
 
                 if(update.docChanged){
                     dispatchEvent(new CustomEvent("notes-update"));

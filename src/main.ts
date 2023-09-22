@@ -38,6 +38,7 @@ export default class MyPlugin extends Plugin {
   current_note: MarkdownView;
 
 
+
   async onload() {
 
     await this.loadSettings();
@@ -49,7 +50,7 @@ export default class MyPlugin extends Plugin {
       (leaf) => new MyView(leaf, this)
     )
 
-    // await this.activateView()
+    
 
     this.addRibbonIcon('dice', 'Open my view', async (evt) => {
       let view = this.app.workspace.getActiveViewOfType(MarkdownView);
@@ -57,8 +58,8 @@ export default class MyPlugin extends Plugin {
         this.current_note = view
       }
       this.activateView()
+      
     })
-
 
 
 
@@ -71,6 +72,8 @@ export default class MyPlugin extends Plugin {
         this.current_note = view
       }
     }))
+
+
 
 
 
@@ -132,6 +135,7 @@ export default class MyPlugin extends Plugin {
       this.app.workspace.getLeavesOfType(VIEW_TYPE)[0]
     );
 
+   
 
 
 
