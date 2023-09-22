@@ -74,9 +74,6 @@ function handler(id: string) {
     const editorView = view.editor.cm as EditorView;
     const doc = editorView.state.doc.children
 
-
-
-
     if (doc) {
         doc.forEach((value, index) => {
             let tNumber = 0
@@ -88,13 +85,16 @@ function handler(id: string) {
 
                     const cursor = view.editor.getCursor()
                     const pos = view.editor.posToOffset(cursor);
-                    // @ts-expect-error, not typed
-                    const word = view.editor.cm.state.wordAt(pos);
 
+                    const word = editorView.lineBlockAt(pos);
+                    
                     if (word) {
                         const wordStart = view.editor.offsetToPos(word.from);
                         const wordEnd = view.editor.offsetToPos(word.to);
                         view.editor.scrollIntoView({ from: wordStart, to: wordEnd }, true)
+                        // view.editor.setSelection(  wordStart ,wordEnd) 选中整行
+
+                        
                     }
 
 
