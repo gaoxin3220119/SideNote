@@ -1,16 +1,11 @@
 import {
-  App,
   MarkdownView,
-  Modal,
-  Notice,
   Plugin,
-  PluginSettingTab,
-  Setting
 } from 'obsidian';
-import { Extension } from "@codemirror/state";
 
 
-import { examplePlugin } from './ExamplePlugin/ExamplePlugin';
+
+
 import { ExampleModal } from './Dialog/dialog';
 import EditingViewPlugin from './Plugin/EditorExtension';
 import { ExampleSettingTab } from './Plugin/settings';
@@ -50,7 +45,9 @@ export default class MyPlugin extends Plugin {
       (leaf) => new MyView(leaf, this)
     )
 
-    
+
+
+
 
     this.addRibbonIcon('dice', 'Open my view', async (evt) => {
       let view = this.app.workspace.getActiveViewOfType(MarkdownView);
@@ -58,7 +55,7 @@ export default class MyPlugin extends Plugin {
         this.current_note = view
       }
       this.activateView()
-      
+
     })
 
 
@@ -74,7 +71,8 @@ export default class MyPlugin extends Plugin {
     }))
 
 
-
+    this.app.workspace.onLayoutReady(this.onLayoutReady.bind(this));
+    
 
 
     this.registerEvent(
@@ -102,6 +100,10 @@ export default class MyPlugin extends Plugin {
 
   async saveSettings() {
     await this.saveData(this.settings);
+  }
+
+  async onLayoutReady(): Promise<void> {
+    await this.activateView()
   }
 
   onunload() {
@@ -135,7 +137,6 @@ export default class MyPlugin extends Plugin {
       this.app.workspace.getLeavesOfType(VIEW_TYPE)[0]
     );
 
-   
 
 
 
