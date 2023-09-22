@@ -193,5 +193,5 @@ function changed() {
     position: absolute;
     right: 2px;
     cursor: pointer;
-    padding: 2px;
+    
 }</style>
