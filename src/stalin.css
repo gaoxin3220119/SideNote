@@ -9,6 +9,13 @@
     border: 1px solid #cdcdcd;
 }
 
-.rightComments h6{
+.rightComments h5{
     display:inline;
+}
+
+.line{
+    position:absolute;
+    background:green;
+    height:1px;
+    z-index: 1;/*这里设置大于2，即可看到真正连线的其实是两个元素的中心坐标*/
 }

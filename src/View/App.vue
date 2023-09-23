@@ -18,7 +18,7 @@
 
 <script setup lang="tsx">
 import { EditorView } from 'codemirror';
-import { Notice } from 'obsidian';
+import { HeadingCache, Notice } from 'obsidian';
 import MyPlugin from 'src/main';
 import { getCurrentInstance, onMounted, onUnmounted, reactive } from 'vue';
 
@@ -30,7 +30,7 @@ let container = compomentSelf.appContext.config.globalProperties.container as HT
 let viewComments = reactive([])
 
 
-function textCopy(t) {
+function textCopy(t: string) {
     // 如果当前浏览器版本不兼容navigator.clipboard
     if (!navigator.clipboard) {
         var ele = document.createElement("input");
@@ -82,19 +82,25 @@ function handler(id: string) {
                     tNumber = index * 32 + value.line(i).number
                     view.editor.focus()
                     view.editor.setCursor(tNumber - 2, 1)
-
                     const cursor = view.editor.getCursor()
                     const pos = view.editor.posToOffset(cursor);
-
                     const word = editorView.lineBlockAt(pos);
+
+
                     
+
                     if (word) {
                         const wordStart = view.editor.offsetToPos(word.from);
                         const wordEnd = view.editor.offsetToPos(word.to);
                         view.editor.scrollIntoView({ from: wordStart, to: wordEnd }, true)
-                        // view.editor.setSelection(  wordStart ,wordEnd) 选中整行
+                        //view.editor.setSelection(  wordStart ,wordEnd) 选中整行
 
-                        
+
+                        // const line = cursor.line
+                        // view.setEphemeralState({ line });
+                        // setTimeout(() => { view.setEphemeralState({ line }); }, 100);
+
+
                     }
 
 
@@ -176,7 +182,7 @@ function changed() {
 </script>
 
 <style>
-.view-comments-gx-span h6{
+.view-comments-gx-span h5 {
     display: inline;
 }
 </style>

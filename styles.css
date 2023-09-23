@@ -8,12 +8,18 @@
   white-space: pre-wrap;
   border: 1px solid #cdcdcd;
 }
-.rightComments h6 {
+.rightComments h5 {
   display: inline;
+}
+.line {
+  position: absolute;
+  background: green;
+  height: 1px;
+  z-index: 1;
 }
 
 /* main.css */
-.view-comments-gx-span h6 {
+.view-comments-gx-span h5 {
   display: inline;
 }
 .view-comments-gx[data-v-11ff5612] {

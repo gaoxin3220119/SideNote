@@ -8,9 +8,9 @@ export const VIEW_TYPE: string = 'right-notes-view';
 export class MyView extends ItemView {
 
     vueapp: VueApp;
-    plugin : MyPlugin
+    plugin: MyPlugin
 
-    constructor(leaf: WorkspaceLeaf,plugin:MyPlugin) {
+    constructor(leaf: WorkspaceLeaf, plugin: MyPlugin) {
         super(leaf);
 
         this.plugin = plugin
@@ -27,7 +27,7 @@ export class MyView extends ItemView {
     async onOpen() {
         const container = this.containerEl.children[1];
         container.empty();
-       const mountPoint =  container.createEl("div", {
+        const mountPoint = container.createEl("div", {
             cls: "my-plugin-view"
         });
         this.vueapp = createApp(App);
