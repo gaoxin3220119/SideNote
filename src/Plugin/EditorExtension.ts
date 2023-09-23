@@ -6,19 +6,20 @@ import {
 } from "@codemirror/view";
 import { App, MarkdownView, WorkspaceLeaf, setIcon } from "obsidian";
 import MyPlugin from "src/main";
+import { EditorState, Text, EditorSelection } from "@codemirror/state";
 
 
 const label = "View notes";
 
-const addSrcButton = (app: App,plugin: MyPlugin) => {
-    const apply = () => app.workspace.iterateAllLeaves(addButton(app,plugin));
+const addSrcButton = (app: App, plugin: MyPlugin) => {
+    const apply = () => app.workspace.iterateAllLeaves(addButton(app, plugin));
 
     app.workspace.onLayoutReady(apply);
     app.workspace.on("layout-change", apply);
 };
 
 
-const addButton = (app: App,plugin: MyPlugin) => (leaf: WorkspaceLeaf) => {
+const addButton = (app: App, plugin: MyPlugin) => (leaf: WorkspaceLeaf) => {
     if (
         leaf.view instanceof MarkdownView &&
         leaf.view.containerEl.querySelector(
@@ -47,8 +48,8 @@ const addButton = (app: App,plugin: MyPlugin) => (leaf: WorkspaceLeaf) => {
     }
 };
 
-export default function EditingViewPlugin(app: App,plugin: MyPlugin) {
-    
+export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
+
 
     return ViewPlugin.fromClass(
         class ExamplePlugin implements PluginValue {
@@ -57,6 +58,7 @@ export default function EditingViewPlugin(app: App,plugin: MyPlugin) {
             dom: HTMLElement;
             fixed: boolean;
             prevViewport: { from: number, to: number };
+            view: EditorView
 
             constructor(view: EditorView) {
                 this.prevViewport = view.viewport;
@@ -66,11 +68,17 @@ export default function EditingViewPlugin(app: App,plugin: MyPlugin) {
                 this.dom.setAttribute("id", "right-gutters")
                 this.dom.style.minHeight = view.contentHeight + 'px';
                 view.scrollDOM.insertAfter(this.dom, view.contentDOM.nextSibling);
-                addSrcButton(app,plugin)
+                addSrcButton(app, plugin)
+
+                this.view = view
+
+
+
             }
 
 
-            setCommnet(view: EditorView,update:ViewUpdate) {
+
+            setCommnet(view: EditorView, update: ViewUpdate) {
                 const _get_gutter = view.dom.querySelector('#right-gutters')
                 if (_get_gutter) {
                     _get_gutter.empty()
@@ -98,10 +106,11 @@ export default function EditingViewPlugin(app: App,plugin: MyPlugin) {
                             comments.innerHTML = element.innerHTML
                             _get_gutter.append(comments)
 
-                            comments.onclick = (e) => {
+                            comments.ondblclick = (e) => {
                                 comments.setAttribute('contenteditable', 'plaintext-only')
                                 comments.style.cursor = 'text'
                                 comments.style.border = '1px solid #00f'
+                                comments.innerHTML = comments.innerHTML.replace(/(<h6>)([\s\S]*?)(<\/h6>)/g,'**$2**').replace(/(<mark>)([\s\S]*?)(<\/mark>)/g,'==$2==').replace(/<br>/g, "\n")
                             }
 
                             comments.onblur = (e) => {
@@ -112,23 +121,30 @@ export default function EditingViewPlugin(app: App,plugin: MyPlugin) {
                                 const line = state.doc.lineAt(position);
                                 const Exp = RegExp("(" + element.getAttribute('id') + "'>)([\\s\\S]*?)(<\/span>)", "g")
                                 const test = line.text.replace(Exp, '$1' + newText + '$3')
-                                view.dispatch({ changes: { from: line.from, to: line.to, insert: test.replace(/\n/g, "<br>"), } })
+
+                                // ====================
+                                // let setTextStyle = test.replace(/\n/g, "<br>")
+                                let setTextStyle = test.replace(/([*]{2})([\s\S]*?)([*]{2})/g, "<h6>$2</h6>").replace(/([=]{2})([\s\S]*?)([=]{2})/g, "<mark>$2</mark>").replace(/\n/g, "<br>")
+
+                                // ====================
+
+                                view.dispatch({ changes: { from: line.from, to: line.to, insert: setTextStyle, } })
                             }
 
                             // if(update.docChanged){
 
-                         
-                                if (comments.offsetHeight + 5 >= element.parentElement.parentElement.parentElement.offsetHeight) {
-                                    element.parentElement.parentElement.parentElement.setAttribute('style', `min-height:${comments.offsetHeight + 5}px;top:0px`)
-                                } else {
-                                    element.parentElement.parentElement.parentElement.removeAttribute('style')
-                                }
 
-                         
-                               
+                            if (comments.offsetHeight + 5 >= element.parentElement.parentElement.parentElement.offsetHeight) {
+                                element.parentElement.parentElement.parentElement.setAttribute('style', `min-height:${comments.offsetHeight + 5}px;top:0px`)
+                            } else {
+                                element.parentElement.parentElement.parentElement.removeAttribute('style')
+                            }
+
+
+
                             // }
 
-                            
+
                         }
                     });
 
@@ -136,25 +152,41 @@ export default function EditingViewPlugin(app: App,plugin: MyPlugin) {
 
             }
 
-            
+
 
             update(update: ViewUpdate) {
                 this.dom.style.minHeight = update.view.contentHeight + 'px';
 
                 // if(update.geometryChanged){
-                    this.setCommnet(update.view,update)
+                this.setCommnet(update.view, update)
                 // }
 
-           
-                
 
-                if(update.docChanged){
+                // if (update.geometryChanged) {
+                //     console.log('geometryChanged');
+
+                // }
+
+                if (update.docChanged) {
                     dispatchEvent(new CustomEvent("notes-update"));
-                    
-                }
-                
 
-                                
+                }
+
+                // if (update.selectionSet) {
+                //     const selectText = update.state.sliceDoc(update.state.selection.main.from, update.state.selection.main.to)
+                //     if((selectText.startsWith('<span') && selectText.indexOf('comment-id-')!=-1)){
+                        
+                //         const sdfsdf = (app as any).plugins.plugins['obsidian-hover-editor'].spawnPopover();
+                //         console.log(sdfsdf);
+                //     }
+                       
+
+
+                // }
+
+
+
+
             }
 
             destroy() {

@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="view-comments-gx" @click="handler(item.id)">
-            <span v-html='item.innerHTML' :ref="'menuItem' + index"></span>
+            <span class="view-comments-gx-span" v-html='item.innerHTML' :ref="'menuItem' + index"></span>
         </div>
     </div>
 </template>
@@ -175,6 +175,11 @@ function changed() {
 
 </script>
 
+<style>
+.view-comments-gx-span h6{
+    display: inline;
+}
+</style>
 
 <style scoped>
 .view-comments-gx {
@@ -191,6 +196,8 @@ function changed() {
     overflow-wrap: break-word;
     font-size: 12px;
 }
+
+
 
 .header-tool {
     height: 20px;

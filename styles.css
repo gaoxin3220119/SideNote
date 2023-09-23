@@ -10,8 +10,14 @@
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
+.rightComments h6 {
+  display: inline;
+}
 
 /* main.css */
+.view-comments-gx-span h6 {
+  display: inline;
+}
 .view-comments-gx[data-v-11ff5612] {
   width: 100%;
   padding: 10px;
