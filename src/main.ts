@@ -57,7 +57,7 @@ export default class MyPlugin extends Plugin {
 
 
 
-    this.addRibbonIcon('dice', 'Open my view', async (evt) => {
+    this.addRibbonIcon('quote-glyph', 'Open my view', async (evt) => {
       let view = this.app.workspace.getActiveViewOfType(MarkdownView);
       if (view) {
         this.current_note = view

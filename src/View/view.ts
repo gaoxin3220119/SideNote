@@ -19,10 +19,10 @@ export class MyView extends ItemView {
         return VIEW_TYPE;
     }
     getDisplayText(): string {
-        return VIEW_TYPE;
+        return "View Notes";
     }
     getIcon(): string {
-        return "dice";
+        return "quote-glyph";
     }
     async onOpen() {
         const container = this.containerEl.children[1];
