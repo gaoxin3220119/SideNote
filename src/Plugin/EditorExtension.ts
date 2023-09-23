@@ -13,7 +13,6 @@ const label = "View notes";
 
 const addSrcButton = (app: App, plugin: MyPlugin) => {
     const apply = () => app.workspace.iterateAllLeaves(addButton(app, plugin));
-
     app.workspace.onLayoutReady(apply);
     app.workspace.on("layout-change", apply);
 };
@@ -27,7 +26,7 @@ const addButton = (app: App, plugin: MyPlugin) => (leaf: WorkspaceLeaf) => {
         ) === null
     ) {
         let view = leaf.view;
-        let isWork = false
+        let isWork = !plugin.settings.isDisplay; //false
         const buttonElement = view.addAction("pdf-file", label, (evt) => {
 
             const rightGutters = view.contentEl.querySelector('#right-gutters')
@@ -35,7 +34,7 @@ const addButton = (app: App, plugin: MyPlugin) => (leaf: WorkspaceLeaf) => {
             if (isWork) {
                 isWork = false
                 rightGutters.setAttribute('style', 'display:block')
-                rightGutters.setAttribute('style', `background-color:${plugin.settings.backgroundColor}!important;width:${plugin.settings.width}px;margin-right: 30px`);
+                rightGutters.setAttribute('style', `background-color:${plugin.settings.backgroundColor}!important;width:${plugin.settings.width}px;margin-right: 30px;position:relative;-webkit-box-sizing: content-box;padding: 10px;border: 1px solid #E0E0E0 !important;`);
                 setIcon(buttonElement, 'pdf-file');
             } else {
                 isWork = true
@@ -64,16 +63,15 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                 this.prevViewport = view.viewport;
                 this.dom = document.createElement('div');
                 this.dom.className = 'cm-gutters';
-                this.dom.setAttribute('style', `background-color:${plugin.settings.backgroundColor}!important;width:${plugin.settings.width}px;margin-right: 30px`);
+                this.dom.setAttribute('style', `background-color:${plugin.settings.backgroundColor}!important;width:${plugin.settings.width}px;margin-right: 30px;position:relative;-webkit-box-sizing: content-box;padding: 10px;border: 1px solid #E0E0E0 !important;`);
                 this.dom.setAttribute("id", "right-gutters")
+                if (plugin.settings.isDisplay == false) {
+                    this.dom.setAttribute('style', 'display:none')
+                }
                 this.dom.style.minHeight = view.contentHeight + 'px';
                 view.scrollDOM.insertAfter(this.dom, view.contentDOM.nextSibling);
                 addSrcButton(app, plugin)
-
                 this.view = view
-
-
-
             }
 
 
@@ -101,8 +99,13 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                         if (element) {
 
                             const comments = document.createElement('div')
-                            comments.style.top = element.parentElement.parentElement.parentElement.offsetTop + 'px'
+                            comments.style.top = element.parentElement.parentElement.parentElement.offsetTop - 30 + 'px'
+                            comments.style.backgroundColor = plugin.settings.commentItmebackgroundColor
+                            comments.style.color = plugin.settings.commentItmeColor
+                            comments.style.fontSize = plugin.settings.commentItmefontSize
                             comments.addClass('rightComments')
+
+                            //comments.setAttribute('style',`background: ${plugin.settings.commentItmebackgroundColor};`)
                             comments.innerHTML = element.innerHTML
                             _get_gutter.append(comments)
 
@@ -110,7 +113,7 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                                 comments.setAttribute('contenteditable', 'plaintext-only')
                                 comments.style.cursor = 'text'
                                 comments.style.border = '1px solid #00f'
-                                comments.innerHTML = comments.innerHTML.replace(/(<h6>)([\s\S]*?)(<\/h6>)/g,'**$2**').replace(/(<mark>)([\s\S]*?)(<\/mark>)/g,'==$2==').replace(/<br>/g, "\n")
+                                comments.innerHTML = comments.innerHTML.replace(/(<h6>)([\s\S]*?)(<\/h6>)/g, '**$2**').replace(/(<mark>)([\s\S]*?)(<\/mark>)/g, '==$2==').replace(/<br>/g, "\n")
                             }
 
                             comments.onblur = (e) => {
@@ -175,11 +178,11 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                 // if (update.selectionSet) {
                 //     const selectText = update.state.sliceDoc(update.state.selection.main.from, update.state.selection.main.to)
                 //     if((selectText.startsWith('<span') && selectText.indexOf('comment-id-')!=-1)){
-                        
+
                 //         const sdfsdf = (app as any).plugins.plugins['obsidian-hover-editor'].spawnPopover();
                 //         console.log(sdfsdf);
                 //     }
-                       
+
 
 
                 // }

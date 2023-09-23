@@ -15,12 +15,22 @@ import { MyView, VIEW_TYPE } from './View/view'
 
 interface ExamplePluginSettings {
   width: string;
-  backgroundColor: string
+  backgroundColor: string;
+  isDisplay:boolean;
+  commentItmebackgroundColor:string;
+  commentItmeColor:string;
+  commentItmefontSize:string;
+
 }
 
 const DEFAULT_SETTINGS: Partial<ExamplePluginSettings> = {
   width: "250",
-  backgroundColor: 'rgb(246, 248, 250)'
+  backgroundColor: "#e3e3e3",//'rgb(246, 248, 250)',
+  isDisplay:false,
+  commentItmebackgroundColor:"#e4e4e4",
+  commentItmeColor:"#000",
+  commentItmefontSize:'12px'
+
 };
 
 
@@ -44,8 +54,6 @@ export default class MyPlugin extends Plugin {
       VIEW_TYPE,
       (leaf) => new MyView(leaf, this)
     )
-
-
 
 
 
@@ -110,21 +118,6 @@ export default class MyPlugin extends Plugin {
     this.app.workspace.detachLeavesOfType(VIEW_TYPE)
   }
 
-
-  // async activateView() {
-  //   if (this.app.workspace.getLeavesOfType(VIEW_TYPE).length === 0) {
-  //     await this.app.workspace.getRightLeaf(false).setViewState({
-  //       type: VIEW_TYPE,
-  //       active: true,
-  //     })
-  //   }
-
-  //   this.app.workspace.revealLeaf(
-  //     this.app.workspace.getLeavesOfType(VIEW_TYPE)[0]
-  //   )
-  // }
-
-
   async activateView() {
     this.app.workspace.detachLeavesOfType(VIEW_TYPE);
 
@@ -136,10 +129,6 @@ export default class MyPlugin extends Plugin {
     this.app.workspace.revealLeaf(
       this.app.workspace.getLeavesOfType(VIEW_TYPE)[0]
     );
-
-
-
-
   }
 
 }

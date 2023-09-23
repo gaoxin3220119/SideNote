@@ -1,15 +1,12 @@
 .rightComments {
-    background: #e8e8e8;
+   
     padding: 5px 10px 10px 10px;
     width: inherit;
-    color: black;
     position: absolute;
-    z-index: 99;
     cursor: pointer;
-    /* white-space: pre-wrap; */
     word-wrap: break-word;
-    overflow-wrap: break-word;
-  
+    white-space: pre-wrap;
+    border: 1px solid #cdcdcd;
 }
 
 .rightComments h6{
