@@ -39,7 +39,7 @@ const addButton = (app: App, plugin: MyPlugin) => (leaf: WorkspaceLeaf) => {
             } else {
                 isWork = true
                 rightGutters.setAttribute('style', 'display:none')
-                setIcon(buttonElement, 'add-note-glyph');
+                setIcon(buttonElement, 'document');
 
             }
 
