@@ -74,39 +74,7 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                 this.view = view
             }
 
-            // drawLine(startObj: HTMLElement, endObj: HTMLElement): HTMLElement {
-
-            //     //起点元素中心坐标
-            //     var y_start = startObj.offsetTop
-            //     var x_start = startObj.offsetLeft;
-
-            //     //终点元素中心坐标
-            //     var y_end = endObj.offsetTop;
-            //     var x_end = endObj.offsetLeft;
-
-            //     //用勾股定律计算出斜边长度及其夹角（即连线的旋转角度）
-            //     var lx = x_end - x_start;
-            //     var ly = y_end - y_start;
-            //     //计算连线长度
-            //     var length = Math.sqrt(lx * lx + ly * ly);
-            //     //弧度值转换为角度值
-            //     var c = 360 * Math.atan2(ly, lx) / (2 * Math.PI);
-
-            //     //连线中心坐标
-            //     var midX = (x_end + x_start) / 2;
-            //     var midY = (y_end + y_start) / 2
-            //     var deg = c <= -90 ? (360 + c) : c;  //负角转换为正角
-
-
-
-
-            //     const html = document.createElement('div')
-            //     html.addClass('line')
-            //     html.setAttribute('style', `top:${midY}px;left:${midX - length / 2}px;width:${length}px;transform:rotate(${deg}deg);`)
-
-            //     return html;
-            // }
-
+    
 
 
             setCommnet(view: EditorView, update: ViewUpdate) {
@@ -165,7 +133,7 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                             }
 
                             comments.onclick = (e) => {
-                                // view.scrollDOM.append(this.drawLine(e.targetNode as HTMLElement, element as HTMLElement))
+                              
                             }
 
 
