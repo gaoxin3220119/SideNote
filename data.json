@@ -1,7 +1,7 @@
 {
   "width": "400",
-  "backgroundColor": "#f6f6f6",
-  "isDisplay": false,
+  "backgroundColor": "#e6e6e6",
+  "isDisplay": true,
   "commentItmebackgroundColor": "#f6f6f6",
   "commentItmeColor": "#000000",
   "commentItmefontSize": "12px",
