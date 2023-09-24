@@ -10,26 +10,27 @@ import { ExampleModal } from './Dialog/dialog';
 import EditingViewPlugin from './Plugin/EditorExtension';
 import { ExampleSettingTab } from './Plugin/settings';
 import { MyView, VIEW_TYPE } from './View/view'
+import { EditorView } from 'codemirror';
 
 
 
 interface ExamplePluginSettings {
   width: string;
   backgroundColor: string;
-  isDisplay:boolean;
-  commentItmebackgroundColor:string;
-  commentItmeColor:string;
-  commentItmefontSize:string;
+  isDisplay: boolean;
+  commentItmebackgroundColor: string;
+  commentItmeColor: string;
+  commentItmefontSize: string;
 
 }
 
 const DEFAULT_SETTINGS: Partial<ExamplePluginSettings> = {
   width: "250",
   backgroundColor: "#e3e3e3",//'rgb(246, 248, 250)',
-  isDisplay:false,
-  commentItmebackgroundColor:"#e4e4e4",
-  commentItmeColor:"#000",
-  commentItmefontSize:'12px'
+  isDisplay: false,
+  commentItmebackgroundColor: "#e4e4e4",
+  commentItmeColor: "#000",
+  commentItmefontSize: '12px'
 
 };
 
@@ -41,12 +42,17 @@ export default class MyPlugin extends Plugin {
 
   settings: ExamplePluginSettings;
   current_note: MarkdownView;
+  
+  
+  editorView:EditorView;
 
 
 
   async onload() {
 
     await this.loadSettings();
+
+   
 
     this.addSettingTab(new ExampleSettingTab(this.app, this));
 
@@ -80,8 +86,10 @@ export default class MyPlugin extends Plugin {
 
 
     this.app.workspace.onLayoutReady(this.onLayoutReady.bind(this));
+
     
 
+ 
 
     this.registerEvent(
       this.app.workspace.on("editor-menu", (menu, editor, view) => {
@@ -91,9 +99,15 @@ export default class MyPlugin extends Plugin {
             .setIcon("document")
             .onClick(async () => {
               new ExampleModal(this.app, (result) => {
+                
                 const id = Math.random().toString(36).slice(2)
-                editor.replaceSelection(`<span class='comment-box'><span>📝</span><span class="comment" style="display:none;"  id='comment-id-${id}'>${result}</span></span>`);
+                const contentValue = `<span class='comment-box'><span>📝</span><span class="comment" style="display:none;"  id='comment-id-${id}'>${result}</span></span>`
+                editor.replaceSelection(contentValue);
+                
+          
               }).open()
+
+
 
             });
         });

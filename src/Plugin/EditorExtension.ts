@@ -74,7 +74,7 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                 this.view = view
             }
 
-    
+
 
 
             setCommnet(view: EditorView, update: ViewUpdate) {
@@ -111,6 +111,7 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                             comments.style.color = plugin.settings.commentItmeColor
                             comments.style.fontSize = plugin.settings.commentItmefontSize
                             comments.innerHTML = element.innerHTML
+                            comments.setAttribute("id", element.id)
                             comments.addClass('rightComments')
                             _get_gutter.append(comments)
 
@@ -132,8 +133,27 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                                 element.parentElement.parentElement.parentElement.removeAttribute('style')
                             }
 
-                            comments.onclick = (e) => {
-                              
+                            comments.onmouseover = (e) => {
+                                const canvas = document.createElement('canvas');// 
+                                const domNode = view.contentDOM.querySelector("#" + (e.target as HTMLElement).id) as HTMLElement;
+                                const parntNode = element.parentElement.parentElement.parentElement
+                                plugin.current_note.contentEl.style.position = 'relative'
+                                canvas.style.height = "55px"
+                                canvas.style.width =  "55px"
+                                canvas.style.position ="absolute"
+                                canvas.style.top  = parntNode.offsetTop + domNode.parentElement.offsetTop - view.scrollDOM.scrollTop  +'px'
+                                canvas.style.left = parntNode.offsetLeft + domNode.parentElement.offsetLeft  +'px'
+                                canvas.style.border = "1px solid #000;"
+                                canvas.style.pointerEvents = 'none'
+                                if (canvas) {
+                                    var ctx = canvas.getContext("2d");
+                                    ctx.globalAlpha = 0.5
+                                    ctx.fillStyle = "rgb(200,0,0)";
+                                    ctx.fillRect (0, 0, 115, 55);
+                                
+                                }
+                                plugin.current_note.contentEl.appendChild(canvas)
+                                setTimeout(()=>{plugin.current_note.contentEl.removeChild(canvas)},1000)
                             }
 
 
