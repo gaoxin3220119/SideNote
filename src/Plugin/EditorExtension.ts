@@ -58,6 +58,7 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
             fixed: boolean;
             prevViewport: { from: number, to: number };
             view: EditorView
+            canvasContent:HTMLElement
 
             constructor(view: EditorView) {
                 this.prevViewport = view.viewport;
@@ -69,7 +70,13 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                     this.dom.setAttribute('style', 'display:none')
                 }
                 this.dom.style.minHeight = view.contentHeight + 'px';
+                
                 view.scrollDOM.insertAfter(this.dom, view.contentDOM.nextSibling);
+
+                this.canvasContent =  document.createElement('div')
+                this.canvasContent.addClass('canvas-content')
+                view.scrollDOM.insertAfter(this.canvasContent, view.contentDOM.nextSibling);
+
                 addSrcButton(app, plugin)
                 this.view = view
             }
@@ -134,26 +141,32 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                             }
 
                             comments.onmouseover = (e) => {
+                                
+                                
+
                                 const canvas = document.createElement('canvas');// 
                                 const domNode = view.contentDOM.querySelector("#" + (e.target as HTMLElement).id) as HTMLElement;
                                 const parntNode = element.parentElement.parentElement.parentElement
-                                plugin.current_note.contentEl.style.position = 'relative'
+                                // view.scrollDOM.style.position = 'relative'
                                 canvas.style.height = "55px"
-                                canvas.style.width =  "55px"
-                                canvas.style.position ="absolute"
-                                canvas.style.top  = parntNode.offsetTop + domNode.parentElement.offsetTop - view.scrollDOM.scrollTop  +'px'
-                                canvas.style.left = parntNode.offsetLeft + domNode.parentElement.offsetLeft  +'px'
+                                canvas.style.width = "55px"
+                                canvas.style.position = "absolute"
+                                canvas.style.top = parntNode.offsetTop + domNode.parentElement.offsetTop  + 'px'
+                                canvas.style.left = parntNode.offsetLeft + domNode.parentElement.offsetLeft + 'px'
                                 canvas.style.border = "1px solid #000;"
-                                canvas.style.pointerEvents = 'none'
+                                // canvas.style.pointerEvents = 'none'
                                 if (canvas) {
                                     var ctx = canvas.getContext("2d");
                                     ctx.globalAlpha = 0.5
                                     ctx.fillStyle = "rgb(200,0,0)";
-                                    ctx.fillRect (0, 0, 115, 55);
-                                
+                                    ctx.fillRect(0, 0, 115, 60);
+
                                 }
-                                plugin.current_note.contentEl.appendChild(canvas)
-                                setTimeout(()=>{plugin.current_note.contentEl.removeChild(canvas)},1000)
+                                // plugin.current_note.contentEl.querySelector('').appendChild(canvas)
+                                this.canvasContent.appendChild(canvas)
+
+                                
+                                setTimeout(() => { this.canvasContent.removeChild(canvas) }, 1000)
                             }
 
 
