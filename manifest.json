@@ -1,9 +1,9 @@
 {
-	"id": "obsidian-side-notes",
-	"name": "Side Notes",
+	"id": "obsidian-side-note",
+	"name": "Side Note",
 	"version": "0.1.2",
 	"minAppVersion": "1.4.13",
-	"description": "side notes",
+	"description": "Side note",
 	"author": "gaoxin",
 	"authorUrl": "https://github.com/gaoxin3220119",
 	"isDesktopOnly": true
