@@ -29,7 +29,7 @@ export class ExampleModal extends Modal {
     stylingTemplateContent.onChange(async (value) => {
 
 
-      this.result = value.replace(/([*]{2})([\s\S]*?)([*]{2})/g, "<h5>$2</h5>").replace(/([=]{2})([\s\S]*?)([=]{2})/g, "<mark>$2</mark>").replace(/\n/g, "<br>");
+      this.result = value.replace(/([*]{2})([\s\S]*?)([*]{2})/g, "<B>$2</B>").replace(/([=]{2})([\s\S]*?)([=]{2})/g, "<mark>$2</mark>").replace(/\n/g, "<br>");
 
 
     });

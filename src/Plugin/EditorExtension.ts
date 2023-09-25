@@ -174,7 +174,7 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                                 comments.setAttribute('contenteditable', 'plaintext-only')
                                 comments.style.cursor = 'text'
                                 comments.style.border = '1px solid #00f'
-                                comments.innerHTML = comments.innerHTML.replace(/(<h5>)([\s\S]*?)(<\/h5>)/g, '**$2**').replace(/(<mark>)([\s\S]*?)(<\/mark>)/g, '==$2==').replace(/<br>/g, "\n")
+                                comments.innerHTML = comments.innerHTML.replace(/(<B>)([\s\S]*?)(<\/B>)/g, '**$2**').replace(/(<mark>)([\s\S]*?)(<\/mark>)/g, '==$2==').replace(/<br>/g, "\n")
                             }
 
                             comments.onblur = (e) => {
@@ -188,7 +188,7 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
 
                                 // ====================
 
-                                let setTextStyle = test.replace(/([*]{2})([\s\S]*?)([*]{2})/g, "<h5>$2</h5>").replace(/([=]{2})([\s\S]*?)([=]{2})/g, "<mark>$2</mark>").replace(/\n/g, "<br>")
+                                let setTextStyle = test.replace(/([*]{2})([\s\S]*?)([*]{2})/g, "<B>$2</B>").replace(/([=]{2})([\s\S]*?)([=]{2})/g, "<mark>$2</mark>").replace(/\n/g, "<br>")
 
                                 // ====================
 
