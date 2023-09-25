@@ -21,6 +21,7 @@ interface ExamplePluginSettings {
   commentItmebackgroundColor: string;
   commentItmeColor: string;
   commentItmefontSize: string;
+  templatesFolder:string;
 
 }
 
@@ -30,8 +31,8 @@ const DEFAULT_SETTINGS: Partial<ExamplePluginSettings> = {
   isDisplay: false,
   commentItmebackgroundColor: "#e4e4e4",
   commentItmeColor: "#000",
-  commentItmefontSize: '12px'
-
+  commentItmefontSize: '12px',
+  templatesFolder: ''
 };
 
 

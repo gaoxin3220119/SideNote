@@ -1,4 +1,16 @@
 <template>
+    <div class="tool-bar">
+        <button ref="outputFile" class="tool-bar-item" title="output to md file" @click="outPutFile">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-file-output">
+                <path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v4" />
+                <polyline points="14 2 14 8 20 8" />
+                <path d="M2 15h10" />
+                <path d="m5 12-3 3 3 3" />
+            </svg>
+        </button>
+    </div>
     <div v-for="(item, index)  in viewComments">
         <div class="header-tool">
             <div class="copy-icons" @click="copyHandler(index)">
@@ -16,6 +28,57 @@
     </div>
 </template>
 
+<style>
+.view-comments-gx-span h5 {
+    display: inline;
+}
+</style>
+
+<style scoped>
+.tool-bar {
+    width: 100%;
+    height: 32px;
+    /* background: #e2e2e2!important; */
+    margin-bottom: 5px;
+}
+
+/* .tool-bar .tool-bar-item{
+    width: 100%;
+} */
+.view-comments-gx {
+    width: 100%;
+    padding: 10px;
+    background: #eee;
+    margin-bottom: 5px;
+    cursor: pointer;
+    border-bottom: 1px solid #cdcdcd;
+    border-right: 1px solid #cdcdcd;
+    border-left: 1px solid #cdcdcd;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    font-size: 12px;
+}
+
+
+
+.header-tool {
+    height: 20px;
+    background: #e2e2e2;
+    border-top: 1px solid #cdcdcd;
+    border-right: 1px solid #cdcdcd;
+    border-left: 1px solid #cdcdcd;
+    position: relative;
+}
+
+.copy-icons {
+    position: absolute;
+    right: 2px;
+    cursor: pointer;
+
+}
+</style>
+
 <script setup lang="tsx">
 import { EditorView } from 'codemirror';
 import { HeadingCache, Notice } from 'obsidian';
@@ -28,12 +91,38 @@ let compomentSelf = getCurrentInstance();
 let plugin = compomentSelf.appContext.config.globalProperties.plugin as MyPlugin;
 let container = compomentSelf.appContext.config.globalProperties.container as HTMLElement;
 let viewComments = reactive([])
+let outputCommnets: string[] = []
+
+async function outPutFile() {
+
+    if (outputCommnets.length <= 0) {
+        new Notice('内容为空！')
+        return
+    }
+
+    const value: string[] = []
+
+
+    outputCommnets.forEach((line) => {
+        const s = line.replace(/(<b>)([\s\S]*?)(<\/b>)/g, '**$2**').replace(/(<mark>)([\s\S]*?)(<\/mark>)/g, '==$2==').replace(/<br>/g, "\n")
+        value.push(s+'\n\n')
+    })
+
+    try {
+
+        await plugin.app.vault.create(`${plugin.settings.templatesFolder}\\${plugin.current_note.file.name.replace(".md", "")}-note.md`, value.join(""))
+
+    } catch (error) {
+        new Notice('文件已经存在！')
+    }
+
+}
 
 
 function textCopy(t: string) {
     // 如果当前浏览器版本不兼容navigator.clipboard
     if (!navigator.clipboard) {
-        var ele = document.createElement("input");
+        let ele = document.createElement("input");
         ele.value = t;
         document.body.appendChild(ele);
         ele.select();
@@ -87,7 +176,7 @@ function handler(id: string) {
                     const word = editorView.lineBlockAt(pos);
 
 
-                    
+
 
                     if (word) {
                         const wordStart = view.editor.offsetToPos(word.from);
@@ -145,7 +234,7 @@ onUnmounted(() => {
 
 
 function stringToHTML(str: string) {
-    var dom = document.createElement('div');
+    let dom = document.createElement('div');
     dom.innerHTML = str;
     return dom;
 };
@@ -162,6 +251,7 @@ function reset(e: Event) {
 
 function changed() {
     viewComments.length = 0
+    outputCommnets.length = 0
     const view = plugin.current_note
     if (view) {
         const Exp = RegExp("(<span\\s+class=\"comment\"\\s+style=\"display:none;\"\\s+id='comment-id-.*?>)([\\s\\S]*?)(</span>)", "g")
@@ -170,6 +260,7 @@ function changed() {
             findComment.forEach((item) => {
                 const id = stringToHTML(item).children[0].id
                 const innerHTML = stringToHTML(item).children[0].innerHTML
+                outputCommnets.push(innerHTML)
                 viewComments.push({ id, innerHTML });
 
             })
@@ -181,43 +272,3 @@ function changed() {
 
 </script>
 
-<style>
-.view-comments-gx-span h5 {
-    display: inline;
-}
-</style>
-
-<style scoped>
-.view-comments-gx {
-    width: 100%;
-    padding: 10px;
-    background: #eee;
-    margin-bottom: 5px;
-    cursor: pointer;
-    border-bottom: 1px solid #cdcdcd;
-    border-right: 1px solid #cdcdcd;
-    border-left: 1px solid #cdcdcd;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    font-size: 12px;
-}
-
-
-
-.header-tool {
-    height: 20px;
-    background: #e2e2e2;
-    border-top: 1px solid #cdcdcd;
-    border-right: 1px solid #cdcdcd;
-    border-left: 1px solid #cdcdcd;
-    position: relative;
-}
-
-.copy-icons {
-    position: absolute;
-    right: 2px;
-    cursor: pointer;
-
-}
-</style>

@@ -22,6 +22,11 @@
 .view-comments-gx-span h5 {
   display: inline;
 }
+.tool-bar[data-v-11ff5612] {
+  width: 100%;
+  height: 32px;
+  margin-bottom: 5px;
+}
 .view-comments-gx[data-v-11ff5612] {
   width: 100%;
   padding: 10px;

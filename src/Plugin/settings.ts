@@ -17,6 +17,17 @@ export class ExampleSettingTab extends PluginSettingTab {
     containerEl.empty();
     containerEl.createEl('h2', { text: 'Side Notes 设置' });
 
+    new Setting(this.containerEl)
+      .setName("笔记导出目录")
+      .setDesc("笔记导出目录设置")
+      .addText((cb) => {
+        cb.setPlaceholder("Example: folder1/folder2")
+          .setValue(this.plugin.settings.templatesFolder)
+          .onChange((new_folder) => {
+            this.plugin.settings.templatesFolder = new_folder;
+          });
+      });
+
     new Setting(containerEl)
       .setName("显示笔记区")
       .setDesc("打开笔记时是否默认显示笔记区")
@@ -44,7 +55,7 @@ export class ExampleSettingTab extends PluginSettingTab {
       );
 
 
-      new Setting(containerEl)
+    new Setting(containerEl)
       .setName("笔记区背景色")
       .setDesc("笔记区背景色")
       .addColorPicker((text) =>
@@ -56,7 +67,7 @@ export class ExampleSettingTab extends PluginSettingTab {
           })
       );
 
-      new Setting(containerEl)
+    new Setting(containerEl)
       .setName("笔记字体大小")
       .setDesc("笔记字体大小")
       .addText((text) =>
@@ -68,8 +79,8 @@ export class ExampleSettingTab extends PluginSettingTab {
             await this.plugin.saveSettings();
           })
       );
-      
-      new Setting(containerEl)
+
+    new Setting(containerEl)
       .setName("笔记背景色")
       .setDesc("笔记背景色")
       .addColorPicker((text) =>
@@ -81,7 +92,7 @@ export class ExampleSettingTab extends PluginSettingTab {
           })
       );
 
-      new Setting(containerEl)
+    new Setting(containerEl)
       .setName("笔记字体颜色")
       .setDesc("笔记字体颜色")
       .addColorPicker((text) =>
@@ -92,10 +103,10 @@ export class ExampleSettingTab extends PluginSettingTab {
             await this.plugin.saveSettings();
           })
       );
- 
 
 
 
-    
+
+
   }
 }

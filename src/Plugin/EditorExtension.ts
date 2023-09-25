@@ -70,7 +70,6 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                     this.dom.setAttribute('style', 'display:none')
                 }
                 this.dom.style.minHeight = view.contentHeight + 'px';
-                
                 view.scrollDOM.insertAfter(this.dom, view.contentDOM.nextSibling);
 
                 this.canvasContent =  document.createElement('div')
@@ -156,7 +155,7 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                                 canvas.style.border = "1px solid #000;"
                                 // canvas.style.pointerEvents = 'none'
                                 if (canvas) {
-                                    var ctx = canvas.getContext("2d");
+                                    let ctx = canvas.getContext("2d");
                                     ctx.globalAlpha = 0.5
                                     ctx.fillStyle = "rgb(200,0,0)";
                                     ctx.fillRect(0, 0, 115, 60);
@@ -174,7 +173,7 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                                 comments.setAttribute('contenteditable', 'plaintext-only')
                                 comments.style.cursor = 'text'
                                 comments.style.border = '1px solid #00f'
-                                comments.innerHTML = comments.innerHTML.replace(/(<B>)([\s\S]*?)(<\/B>)/g, '**$2**').replace(/(<mark>)([\s\S]*?)(<\/mark>)/g, '==$2==').replace(/<br>/g, "\n")
+                                comments.innerHTML = comments.innerHTML.replace(/(<b>)([\s\S]*?)(<\/b>)/g, '**$2**').replace(/(<mark>)([\s\S]*?)(<\/mark>)/g, '==$2==').replace(/<br>/g, "\n")
                             }
 
                             comments.onblur = (e) => {
@@ -188,7 +187,7 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
 
                                 // ====================
 
-                                let setTextStyle = test.replace(/([*]{2})([\s\S]*?)([*]{2})/g, "<B>$2</B>").replace(/([=]{2})([\s\S]*?)([=]{2})/g, "<mark>$2</mark>").replace(/\n/g, "<br>")
+                                let setTextStyle = test.replace(/([*]{2})([\s\S]*?)([*]{2})/g, "<b>$2</b>").replace(/([=]{2})([\s\S]*?)([=]{2})/g, "<mark>$2</mark>").replace(/\n/g, "<br>")
 
                                 // ====================
 
