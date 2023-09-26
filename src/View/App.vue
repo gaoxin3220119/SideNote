@@ -1,6 +1,6 @@
 <template>
-    <div class="tool-bar">
-        <button ref="outputFile" class="tool-bar-item" title="output to md file" @click="outPutFile">
+    <div class="tool-bar nav-buttons-container">
+        <div ref="outputFile" class="tool-bar-item clickable-icon nav-action-button" title="output to md file" @click="outPutFile">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                 class="lucide lucide-file-output">
@@ -9,7 +9,7 @@
                 <path d="M2 15h10" />
                 <path d="m5 12-3 3 3 3" />
             </svg>
-        </button>
+        </div>
     </div>
     <div v-for="(item, index)  in viewComments">
         <div class="header-tool">
@@ -105,7 +105,7 @@ async function outPutFile() {
 
     outputCommnets.forEach((line) => {
         const s = line.replace(/(<b>)([\s\S]*?)(<\/b>)/g, '**$2**').replace(/(<mark>)([\s\S]*?)(<\/mark>)/g, '==$2==').replace(/<br>/g, "\n")
-        value.push(s +'\n\n---\n\n')
+        value.push(s +'\n---\n\n')
     })
 
     try {
