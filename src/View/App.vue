@@ -105,7 +105,7 @@ async function outPutFile() {
 
     outputCommnets.forEach((line) => {
         const s = line.replace(/(<b>)([\s\S]*?)(<\/b>)/g, '**$2**').replace(/(<mark>)([\s\S]*?)(<\/mark>)/g, '==$2==').replace(/<br>/g, "\n")
-        value.push(s+'\n\n')
+        value.push(s +'\n\n---\n\n')
     })
 
     try {
