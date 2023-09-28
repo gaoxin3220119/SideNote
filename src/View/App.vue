@@ -119,7 +119,7 @@ async function outPutFile() {
 
     if (templatesFolder.trim().length == 0) {
 
-        fileStr = `${plugin.current_note.file.name.replace(".md", "")}-note.md`
+        fileStr = `【note】${plugin.current_note.file.name.replace(".md", "")}.md`
 
     } else {
         fileStr = `${templatesFolder}\/${plugin.current_note.file.name.replace(".md", "")}-note.md`
@@ -133,6 +133,8 @@ async function outPutFile() {
             await plugin.app.vault.delete(file, true)
             await plugin.app.vault.create(fileStr, value.join(""))      
         }).open()
+    }else{
+        await plugin.app.vault.create(fileStr, value.join(""))   
     }
 
 
