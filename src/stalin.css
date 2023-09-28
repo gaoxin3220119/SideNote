@@ -6,7 +6,7 @@
     cursor: pointer;
     word-wrap: break-word;
     white-space: pre-wrap;
-    border: 1px solid #cdcdcd;
+    border: 1px solid var(--divider-color);
 }
 
 .rightComments h5{

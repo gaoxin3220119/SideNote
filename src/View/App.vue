@@ -49,12 +49,12 @@
 .view-comments-gx {
     width: 100%;
     padding: 10px;
-    background: #eee;
+    background: var(--background-primary);
     margin-bottom: 5px;
     cursor: pointer;
-    border-bottom: 1px solid #cdcdcd;
-    border-right: 1px solid #cdcdcd;
-    border-left: 1px solid #cdcdcd;
+    border-bottom: 1px solid var(--divider-color);
+    border-right: 1px solid var(--divider-color);
+    border-left: 1px solid var(--divider-color);
     white-space: pre-wrap;
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -64,19 +64,19 @@
 
 
 .header-tool {
-    height: 20px;
-    background: #e2e2e2;
-    border-top: 1px solid #cdcdcd;
-    border-right: 1px solid #cdcdcd;
-    border-left: 1px solid #cdcdcd;
+    height: 25px;
+    background: var(--background-primary-alt);
+    border-top: 1px solid var(--divider-color);
+    border-right: 1px solid var(--divider-color);
+    border-left: 1px solid var(--divider-color);
     position: relative;
 }
 
 .copy-icons {
-    position: absolute;
-    right: 2px;
+    position: absolute; 
+    right: 4px;
+    top:2px;
     cursor: pointer;
-
 }
 </style>
 

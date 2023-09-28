@@ -55,17 +55,17 @@ export class ExampleSettingTab extends PluginSettingTab {
       );
 
 
-    new Setting(containerEl)
-      .setName("笔记区背景色")
-      .setDesc("笔记区背景色")
-      .addColorPicker((text) =>
-        text
-          .setValue(this.plugin.settings.backgroundColor)
-          .onChange(async (value) => {
-            this.plugin.settings.backgroundColor = value;
-            await this.plugin.saveSettings();
-          })
-      );
+    // new Setting(containerEl)
+    //   .setName("笔记区背景色")
+    //   .setDesc("笔记区背景色")
+    //   .addColorPicker((text) =>
+    //     text
+    //       .setValue(this.plugin.settings.backgroundColor)
+    //       .onChange(async (value) => {
+    //         this.plugin.settings.backgroundColor = value;
+    //         await this.plugin.saveSettings();
+    //       })
+    //   );
 
     new Setting(containerEl)
       .setName("笔记字体大小")
@@ -80,29 +80,29 @@ export class ExampleSettingTab extends PluginSettingTab {
           })
       );
 
-    new Setting(containerEl)
-      .setName("笔记背景色")
-      .setDesc("笔记背景色")
-      .addColorPicker((text) =>
-        text
-          .setValue(this.plugin.settings.commentItmebackgroundColor)
-          .onChange(async (value) => {
-            this.plugin.settings.commentItmebackgroundColor = value;
-            await this.plugin.saveSettings();
-          })
-      );
+    // new Setting(containerEl)
+    //   .setName("笔记背景色")
+    //   .setDesc("笔记背景色")
+    //   .addColorPicker((text) =>
+    //     text
+    //       .setValue(this.plugin.settings.commentItmebackgroundColor)
+    //       .onChange(async (value) => {
+    //         this.plugin.settings.commentItmebackgroundColor = value;
+    //         await this.plugin.saveSettings();
+    //       })
+    //   );
 
-    new Setting(containerEl)
-      .setName("笔记字体颜色")
-      .setDesc("笔记字体颜色")
-      .addColorPicker((text) =>
-        text
-          .setValue(this.plugin.settings.commentItmeColor)
-          .onChange(async (value) => {
-            this.plugin.settings.commentItmeColor = value;
-            await this.plugin.saveSettings();
-          })
-      );
+    // new Setting(containerEl)
+    //   .setName("笔记字体颜色")
+    //   .setDesc("笔记字体颜色")
+    //   .addColorPicker((text) =>
+    //     text
+    //       .setValue(this.plugin.settings.commentItmeColor)
+    //       .onChange(async (value) => {
+    //         this.plugin.settings.commentItmeColor = value;
+    //         await this.plugin.saveSettings();
+    //       })
+    //   );
 
 
 
