@@ -115,26 +115,31 @@ async function outPutFile() {
 
 
 
-    let fileStr:string
+    let fileStr: string
 
     if (templatesFolder.trim().length == 0) {
 
-        fileStr = `【note】${plugin.current_note.file.name.replace(".md", "")}.md`
+        fileStr = `【Note】${plugin.current_note.file.name.replace(".md", "")}.md`
 
     } else {
-        fileStr = `${templatesFolder}\/${plugin.current_note.file.name.replace(".md", "")}-note.md`
+
+        fileStr = `${templatesFolder}\/【Note】${plugin.current_note.file.name.replace(".md", "")}.md`
     }
 
     const file = plugin.app.vault.getAbstractFileByPath(fileStr)
-    
+
 
     if (file) {
         new ConfirmModal(plugin.app, async (adf) => {
             await plugin.app.vault.delete(file, true)
-            await plugin.app.vault.create(fileStr, value.join(""))      
+            await plugin.app.vault.create(fileStr, value.join(""))
         }).open()
-    }else{
-        await plugin.app.vault.create(fileStr, value.join(""))   
+    } else {
+        try {
+            await plugin.app.vault.create(fileStr, value.join(""))
+        }catch(err){
+            new Notice('笔记导出目录不存在，请检查笔记目录设置。')
+        }
     }
 
 
