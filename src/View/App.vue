@@ -1,6 +1,7 @@
 <template>
     <div class="tool-bar nav-buttons-container">
-        <div ref="outputFile" class="tool-bar-item clickable-icon nav-action-button" title="output to md file" @click="outPutFile">
+        <div ref="outputFile" class="tool-bar-item clickable-icon nav-action-button" title="output to md file"
+            @click="outPutFile">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                 class="lucide lucide-file-output">
@@ -82,6 +83,7 @@
 <script setup lang="tsx">
 import { EditorView } from 'codemirror';
 import { HeadingCache, Notice } from 'obsidian';
+import { ConfirmModal } from 'src/Dialog/confirm';
 import MyPlugin from 'src/main';
 import { getCurrentInstance, onMounted, onUnmounted, reactive } from 'vue';
 
@@ -105,16 +107,36 @@ async function outPutFile() {
 
     outputCommnets.forEach((line) => {
         const s = line.replace(/(<b>)([\s\S]*?)(<\/b>)/g, '**$2**').replace(/(<mark>)([\s\S]*?)(<\/mark>)/g, '==$2==').replace(/<br>/g, "\n")
-        value.push(s +'\n---\n\n')
+        value.push(s + '\n\n---\n\n')
     })
 
-    try {
 
-        await plugin.app.vault.create(`${plugin.settings.templatesFolder}\\${plugin.current_note.file.name.replace(".md", "")}-note.md`, value.join(""))
+    const templatesFolder = plugin.settings.templatesFolder
 
-    } catch (error) {
-        new Notice('文件已经存在！')
+
+
+    let fileStr:string
+
+    if (templatesFolder.trim().length == 0) {
+
+        fileStr = `${plugin.current_note.file.name.replace(".md", "")}-note.md`
+
+    } else {
+        fileStr = `${templatesFolder}\/${plugin.current_note.file.name.replace(".md", "")}-note.md`
     }
+
+    const file = plugin.app.vault.getAbstractFileByPath(fileStr)
+    
+
+    if (file) {
+        new ConfirmModal(plugin.app, async (adf) => {
+            await plugin.app.vault.delete(file, true)
+            await plugin.app.vault.create(fileStr, value.join(""))      
+        }).open()
+    }
+
+
+
 
 }
 
