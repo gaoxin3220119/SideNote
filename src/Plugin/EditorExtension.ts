@@ -26,7 +26,7 @@ const addButton = (app: App, plugin: MyPlugin) => (leaf: WorkspaceLeaf) => {
         ) === null
     ) {
         let view = leaf.view;
-        let isWork = plugin.settings.isDisplay; //false
+        let isWork = !plugin.settings.isDisplay; //false
         const buttonElement = view.addAction("pdf-file", label, (evt) => {
 
             const rightGutters = view.contentEl.querySelector('#right-gutters')
@@ -34,7 +34,7 @@ const addButton = (app: App, plugin: MyPlugin) => (leaf: WorkspaceLeaf) => {
             if (isWork) {
                 isWork = false
                 rightGutters.setAttribute('style', 'display:block')
-                rightGutters.setAttribute('style', `background-color:${plugin.settings.backgroundColor}!important;width:${plugin.settings.width}px;margin-right: 30px;padding: 10px;border: 1px solid #E0E0E0 !important;`);
+                rightGutters.setAttribute('style', `background-color:${plugin.settings.backgroundColor}!important;width:${plugin.settings.width}px;margin-right: 30px;position:relative;-webkit-box-sizing: content-box;padding: 10px;border: 1px solid #E0E0E0 !important;`);
                 setIcon(buttonElement, 'pdf-file');
             } else {
                 isWork = true
@@ -64,7 +64,7 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                 this.prevViewport = view.viewport;
                 this.dom = document.createElement('div');
                 this.dom.className = 'cm-gutters';
-                this.dom.setAttribute('style', `background-color:${plugin.settings.backgroundColor}!important;width:${plugin.settings.width}px;margin-right: 30px;padding: 10px;border: 1px solid #E0E0E0 !important;`);
+                this.dom.setAttribute('style', `background-color:${plugin.settings.backgroundColor}!important;width:${plugin.settings.width}px;margin-right: 30px;position:relative;-webkit-box-sizing: content-box;padding: 10px;border: 1px solid #E0E0E0 !important;`);
                 this.dom.setAttribute("id", "right-gutters")
                 if (plugin.settings.isDisplay == false) {
                     this.dom.setAttribute('style', 'display:none')
@@ -109,8 +109,6 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
 
                     findComment.forEach(element => {
                         if (element) {
-
-
                             const comments = document.createElement('div')
                             comments.style.top = element.parentElement.parentElement.parentElement.offsetTop - 30 + 'px'
                             comments.style.backgroundColor = plugin.settings.commentItmebackgroundColor
@@ -121,8 +119,10 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                             comments.addClass('rightComments')
                             _get_gutter.append(comments)
 
+                     
 
-                            if (comments.style.top == tempComment.style.top || comments.style.top == baseTop) {
+
+                                if(comments.style.top == tempComment.style.top || comments.style.top == baseTop) {
                                 baseTop = comments.style.top
                                 moreCommentHeight = moreCommentHeight + tempComment.offsetHeight
                                 comments.style.top = tempComment.offsetTop + tempComment.offsetHeight + 1 + "px"
