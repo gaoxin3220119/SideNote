@@ -26,7 +26,7 @@ const addButton = (app: App, plugin: MyPlugin) => (leaf: WorkspaceLeaf) => {
         ) === null
     ) {
         let view = leaf.view;
-        let isWork = !plugin.settings.isDisplay; //false
+        let isWork = plugin.settings.isDisplay; //false
         const buttonElement = view.addAction("pdf-file", label, (evt) => {
 
             const rightGutters = view.contentEl.querySelector('#right-gutters')
@@ -34,7 +34,7 @@ const addButton = (app: App, plugin: MyPlugin) => (leaf: WorkspaceLeaf) => {
             if (isWork) {
                 isWork = false
                 rightGutters.setAttribute('style', 'display:block')
-                rightGutters.setAttribute('style', `background-color:${plugin.settings.backgroundColor}!important;width:${plugin.settings.width}px;margin-right: 30px;position:relative;-webkit-box-sizing: content-box;padding: 10px;border: 1px solid #E0E0E0 !important;`);
+                rightGutters.setAttribute('style', `background-color:${plugin.settings.backgroundColor}!important;width:${plugin.settings.width}px;margin-right: 30px;padding: 10px;border: 1px solid #E0E0E0 !important;`);
                 setIcon(buttonElement, 'pdf-file');
             } else {
                 isWork = true
@@ -58,13 +58,13 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
             fixed: boolean;
             prevViewport: { from: number, to: number };
             view: EditorView
-            canvasContent:HTMLElement
+            canvasContent: HTMLElement
 
             constructor(view: EditorView) {
                 this.prevViewport = view.viewport;
                 this.dom = document.createElement('div');
                 this.dom.className = 'cm-gutters';
-                this.dom.setAttribute('style', `background-color:${plugin.settings.backgroundColor}!important;width:${plugin.settings.width}px;margin-right: 30px;position:relative;-webkit-box-sizing: content-box;padding: 10px;border: 1px solid #E0E0E0 !important;`);
+                this.dom.setAttribute('style', `background-color:${plugin.settings.backgroundColor}!important;width:${plugin.settings.width}px;margin-right: 30px;padding: 10px;border: 1px solid #E0E0E0 !important;`);
                 this.dom.setAttribute("id", "right-gutters")
                 if (plugin.settings.isDisplay == false) {
                     this.dom.setAttribute('style', 'display:none')
@@ -72,7 +72,7 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                 this.dom.style.minHeight = view.contentHeight + 'px';
                 view.scrollDOM.insertAfter(this.dom, view.contentDOM.nextSibling);
 
-                this.canvasContent =  document.createElement('div')
+                this.canvasContent = document.createElement('div')
                 this.canvasContent.addClass('canvas-content')
                 view.scrollDOM.insertAfter(this.canvasContent, view.contentDOM.nextSibling);
 
@@ -140,8 +140,8 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                             }
 
                             comments.onmouseover = (e) => {
-                                
-                                
+
+
 
                                 const canvas = document.createElement('canvas');// 
                                 const domNode = view.contentDOM.querySelector("#" + (e.target as HTMLElement).id) as HTMLElement;
@@ -150,7 +150,7 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                                 canvas.style.height = "55px"
                                 canvas.style.width = "55px"
                                 canvas.style.position = "absolute"
-                                canvas.style.top = parntNode.offsetTop + domNode.parentElement.offsetTop  + 'px'
+                                canvas.style.top = parntNode.offsetTop + domNode.parentElement.offsetTop + 'px'
                                 canvas.style.left = parntNode.offsetLeft + domNode.parentElement.offsetLeft + 'px'
                                 canvas.style.border = "1px solid #000;"
                                 // canvas.style.pointerEvents = 'none'
@@ -164,7 +164,7 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                                 // plugin.current_note.contentEl.querySelector('').appendChild(canvas)
                                 this.canvasContent.appendChild(canvas)
 
-                                
+
                                 setTimeout(() => { this.canvasContent.removeChild(canvas) }, 1000)
                             }
 
@@ -210,20 +210,22 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
             update(update: ViewUpdate) {
                 this.dom.style.minHeight = update.view.contentHeight + 'px';
 
-                // if(update.geometryChanged){
-                this.setCommnet(update.view, update)
-                // }
+                if ((update.focusChanged || update.geometryChanged)) {
+                    this.setCommnet(update.view, update)
+                }
 
 
-                // if (update.geometryChanged) {
-                //     console.log('geometryChanged');
-
-                // }
 
                 if (update.docChanged) {
                     dispatchEvent(new CustomEvent("notes-update"));
-
                 }
+
+                //     update.changes.iterChanges((fromA, toA, fromB, toB, text) => {
+                //         console.log("", update.startState.sliceDoc(fromA, toA))  //得到删除的数据
+                //         console.log(text);
+                //         console.log(update.viewportChanged)
+                //     })
+                // }
 
                 // if (update.selectionSet) {
                 //     const selectText = update.state.sliceDoc(update.state.selection.main.from, update.state.selection.main.to)
