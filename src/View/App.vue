@@ -65,7 +65,7 @@
 
 .header-tool {
     height: 25px;
-    background: var(--background-primary-alt);
+    background: var(--background-primary);
     border-top: 1px solid var(--divider-color);
     border-right: 1px solid var(--divider-color);
     border-left: 1px solid var(--divider-color);
