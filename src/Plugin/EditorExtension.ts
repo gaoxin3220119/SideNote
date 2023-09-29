@@ -151,6 +151,7 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                                     ctx.fillStyle = "#086ddd";
                                     ctx.fillRect(0, 0, 115, 60);
                                     
+                                    
                                 }
                                 this.canvasContent.appendChild(canvas)
                                 setTimeout(() => { this.canvasContent.removeChild(canvas) }, 1000)
@@ -183,7 +184,7 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
 
             update(update: ViewUpdate) {
                 this.dom.style.minHeight = update.view.contentHeight + 'px';
-                if ((update.focusChanged || update.geometryChanged)) {
+                if ((update.selectionSet || update.docChanged || update.focusChanged || update.geometryChanged )) {
                     this.setCommnet(update.view, update)
                 }
                 if (update.docChanged) {
