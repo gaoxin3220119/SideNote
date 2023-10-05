@@ -136,7 +136,7 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                                 element.parentElement.parentElement.parentElement.removeAttribute('style')
                             }
                             comments.onmouseover = (e) => {
-                                const canvas = document.createElement('canvas');// 
+                                const canvas = document.createElement('canvas');
                                 const domNode = view.contentDOM.querySelector("#" + (e.target as HTMLElement).id) as HTMLElement;
                                 const parntNode = element.parentElement.parentElement.parentElement
                                 canvas.style.height = "55px"

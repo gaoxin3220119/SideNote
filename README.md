@@ -1,24 +1,25 @@
-## Develop your own plugins with Vue3
+# SideNote
+
+一个 obsidian 的侧边栏插件 A side note plugin for obsidian
 
 
-## Init steps
+## 0.1.3 更新 0.1.3 Update
 
-1. Clone this repository to your `.obsidian\plugins` directory, and move into it.
-
-2. Run `npm install` to install all the stuff you need, Including: 
-   + vue3 sfc support
-   + vue3 tsx support
-   + typescript
-   + esbuild
-
-3. Run `npm run dev` to compile code and generate a `main.js`, which is the final output. Your `main.js` will be updated simultaneously with the change of your source code files.
-
-If above steps work, you can turn on 'Vue Template' plugin in Obsidian. Click the *dice* like button on the left ribbon, a new tab will open on the right and says *"Hello,Developer!"*.
-
-4. When you get ready to build a release, run `npm run build` to create it. This will remove all codemaps and minify code size.
+1.导出笔记功能
+<br>
+<br>
+2.跟随系统主题颜色
 
 
+## 0.1.2 更新 0.1.2 Update
+---
 
-## Notice
+1.支持在一个段落（行）添加多个笔记 more note in line
+<br>
+<br>
+2.鼠标滑过笔记时，高亮显示对应笔记标签 highlight label
 
-+ [hot-reload](https://forum.obsidian.md/t/plugin-release-for-developers-hot-reload-the-plugin-s-youre-developing/12185) plugin may be very helpful in your developing. It reloads the plugin whose `main.js` file changes, so you don't need do it yourself every time you make changes to code.
+
+# 演示 demo
+
+<img src="https://github.com/gaoxin3220119/SideNote/blob/main/demo.gif" />
