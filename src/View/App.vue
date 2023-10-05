@@ -11,6 +11,7 @@
                 <path d="m5 12-3 3 3 3" />
             </svg>
         </div>
+
     </div>
     <div v-for="(item, index)  in viewComments">
         <div class="header-tool">
@@ -95,6 +96,8 @@ let container = compomentSelf.appContext.config.globalProperties.container as HT
 let viewComments = reactive([])
 let outputCommnets: string[] = []
 
+
+
 async function outPutFile() {
 
     if (outputCommnets.length <= 0) {
@@ -102,7 +105,7 @@ async function outPutFile() {
         return
     }
 
-    const value: string[] = []
+    const value: string[] = [`[[${plugin.current_note.file.name.replace(".md", "")}]]\n\n`]
 
 
     outputCommnets.forEach((line) => {
