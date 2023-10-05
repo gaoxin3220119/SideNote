@@ -34,7 +34,7 @@ const addButton = (app: App, plugin: MyPlugin) => (leaf: WorkspaceLeaf) => {
             if (isWork) {
                 isWork = false
                 rightGutters.setAttribute('style', 'display:block')
-                rightGutters.setAttribute('style', `background-color:${plugin.settings.backgroundColor}!important;width:${plugin.settings.width}px;margin-right: 30px;position:relative;-webkit-box-sizing: content-box;padding: 10px;border: 1px solid #E0E0E0 !important;`);
+                rightGutters.setAttribute('style', `background-color:var(--background-primary-alt);width:${plugin.settings.width}px;margin-right: 30px;position:relative;-webkit-box-sizing: content-box;padding: 10px;border: 1px solid var(--divider-color) !important;`);
                 setIcon(buttonElement, 'pdf-file');
             } else {
                 isWork = true
@@ -117,7 +117,7 @@ export default function EditingViewPlugin(app: App, plugin: MyPlugin) {
                             // comments.style.color = plugin.settings.commentItmeColor
                             comments.style.color = "var(--text-normal)"
 
-                            comments.style.fontSize = plugin.settings.commentItmefontSize
+                            comments.style.fontSize = plugin.settings.commentItmefontSize + 'px'
                             comments.innerHTML = element.innerHTML
                             comments.setAttribute("id", element.id)
                             comments.addClass('rightComments')

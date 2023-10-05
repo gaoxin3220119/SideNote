@@ -15,23 +15,23 @@ import { EditorView } from 'codemirror';
 
 
 interface ExamplePluginSettings {
-  width: string;
+  width: number;
   backgroundColor: string;
   isDisplay: boolean;
   commentItmebackgroundColor: string;
   commentItmeColor: string;
-  commentItmefontSize: string;
+  commentItmefontSize: number;
   templatesFolder:string;
 
 }
 
 const DEFAULT_SETTINGS: Partial<ExamplePluginSettings> = {
-  width: "250",
+  width: 250,
   backgroundColor: "#e3e3e3",//'rgb(246, 248, 250)',
   isDisplay: false,
   commentItmebackgroundColor: "#e4e4e4",
   commentItmeColor: "#000",
-  commentItmefontSize: '12px',
+  commentItmefontSize: 12,
   templatesFolder: ''
 };
 

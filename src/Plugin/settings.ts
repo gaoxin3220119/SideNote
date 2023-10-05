@@ -2,9 +2,11 @@ import MyPlugin from "../main";
 
 
 import { App, PluginSettingTab, Setting } from "obsidian";
+import { FolderSuggest } from "./suggesters/FolderSuggester";
 
 export class ExampleSettingTab extends PluginSettingTab {
   plugin: MyPlugin;
+
 
   constructor(app: App, plugin: MyPlugin) {
     super(app, plugin);
@@ -19,8 +21,9 @@ export class ExampleSettingTab extends PluginSettingTab {
 
     new Setting(this.containerEl)
       .setName("笔记导出目录")
-      .setDesc("笔记导出目录设置")
+      .setDesc("笔记导出目录设置 Note export directory settings")
       .addText((cb) => {
+        new FolderSuggest(cb.inputEl);
         cb.setPlaceholder("Example: folder1/folder2")
           .setValue(this.plugin.settings.templatesFolder)
           .onChange((new_folder) => {
@@ -29,8 +32,9 @@ export class ExampleSettingTab extends PluginSettingTab {
       });
 
     new Setting(containerEl)
+
       .setName("显示笔记区")
-      .setDesc("打开笔记时是否默认显示笔记区")
+      .setDesc("打开笔记时是否默认显示笔记区 Display the note area")
       .addToggle((s) => {
         s
           .setValue(this.plugin.settings.isDisplay)
@@ -43,10 +47,11 @@ export class ExampleSettingTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setName("笔记区宽度")
-      .setDesc("笔记区宽度")
-      .addText((text) =>
+      .setDesc("笔记区宽度 Note area width (px)")
+      .addSlider((text) =>
         text
-          .setPlaceholder("250")
+          .setDynamicTooltip()
+          .setLimits(50,1000,10)
           .setValue(this.plugin.settings.width)
           .onChange(async (value) => {
             this.plugin.settings.width = value;
@@ -55,24 +60,14 @@ export class ExampleSettingTab extends PluginSettingTab {
       );
 
 
-    // new Setting(containerEl)
-    //   .setName("笔记区背景色")
-    //   .setDesc("笔记区背景色")
-    //   .addColorPicker((text) =>
-    //     text
-    //       .setValue(this.plugin.settings.backgroundColor)
-    //       .onChange(async (value) => {
-    //         this.plugin.settings.backgroundColor = value;
-    //         await this.plugin.saveSettings();
-    //       })
-    //   );
 
     new Setting(containerEl)
-      .setName("笔记字体大小")
-      .setDesc("笔记字体大小")
-      .addText((text) =>
+      .setName("笔记区字体大小")
+      .setDesc("笔记区字体大小 Notes area font size (px)")
+      .addSlider((text) =>
         text
-          .setPlaceholder(this.plugin.settings.commentItmefontSize)
+          .setDynamicTooltip()
+          .setLimits(10,20,1)
           .setValue(this.plugin.settings.commentItmefontSize)
           .onChange(async (value) => {
             this.plugin.settings.commentItmefontSize = value;
@@ -80,33 +75,6 @@ export class ExampleSettingTab extends PluginSettingTab {
           })
       );
 
-    // new Setting(containerEl)
-    //   .setName("笔记背景色")
-    //   .setDesc("笔记背景色")
-    //   .addColorPicker((text) =>
-    //     text
-    //       .setValue(this.plugin.settings.commentItmebackgroundColor)
-    //       .onChange(async (value) => {
-    //         this.plugin.settings.commentItmebackgroundColor = value;
-    //         await this.plugin.saveSettings();
-    //       })
-    //   );
-
-    // new Setting(containerEl)
-    //   .setName("笔记字体颜色")
-    //   .setDesc("笔记字体颜色")
-    //   .addColorPicker((text) =>
-    //     text
-    //       .setValue(this.plugin.settings.commentItmeColor)
-    //       .onChange(async (value) => {
-    //         this.plugin.settings.commentItmeColor = value;
-    //         await this.plugin.saveSettings();
-    //       })
-    //   );
-
-
-
-
-
+    
   }
 }

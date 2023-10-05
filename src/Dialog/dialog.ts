@@ -16,7 +16,7 @@ export class ExampleModal extends Modal {
   onOpen() {
     const { contentEl } = this;
 
-    contentEl.createEl("h6", { text: "您的想法是？" });
+    contentEl.createEl("h6", { text: "您的想法是？（what is you ideal?）" });
 
     const stylingTemplateSetting = new Setting(contentEl)
 
@@ -25,6 +25,7 @@ export class ExampleModal extends Modal {
     stylingTemplateSetting.settingEl.setAttribute("style", "display: grid; grid-template-columns: 1fr;");
 
     stylingTemplateContent.inputEl.setAttribute('style', 'width: 100%;  height: 18vh;')
+    
 
     stylingTemplateContent.onChange(async (value) => {
 
